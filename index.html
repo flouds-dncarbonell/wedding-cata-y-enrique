@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catalina &amp; Enrique · 9 Enero 2027</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Allison&family=Lavishly+Yours&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ivory:      #FAF8F4;
+      --terracotta: oklch(0.56 0.11 38);
+      --terra-lt:   oklch(0.80 0.07 38);
+      --gold:       oklch(0.65 0.10 68);
+      --ink:        #28190E;
+      --ink-soft:   #5C4635;
+      --green:      #4D5A3E;
+      --border:     oklch(0.80 0.04 68 / .32);
+
+      --script:   'Lavishly Yours', cursive;
+      --display:  'Allison', cursive;
+      --serif:    'Cormorant Garamond', Georgia, serif;
+      --sans:     'Jost', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--ivory);
+      color: var(--ink);
+      font-family: var(--serif);
+      font-size: 19px;
+      line-height: 1.8;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      opacity: 0.038; pointer-events: none; z-index: 9999;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 300px;
+    }
+
+    /* ── NAV ── */
+    #nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 18px 36px;
+      display: flex; align-items: center; justify-content: space-between;
+      opacity: 0; pointer-events: none;
+      transition: opacity .5s, background .4s, box-shadow .4s;
+    }
+    #nav.vis {
+      opacity: 1; pointer-events: auto;
+      background: rgb(250 248 244 / .94);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 1px 0 var(--border);
+    }
+    .nav-brand {
+      font-family: var(--script); font-size: 1.7rem; font-weight: 400;
+      color: var(--ink); text-decoration: none; line-height: 1;
+    }
+    .nav-links { display: none; gap: 2.2rem; list-style: none; }
+    .nav-links a {
+      font-family: var(--sans); font-size: .74rem; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--ink-soft); text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--terracotta); }
+    .nav-toggle {
+      background: none; border: none; cursor: pointer;
+      font-family: var(--sans); font-size: .78rem;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--ink); padding: 4px;
+    }
+    @media (min-width: 900px) {
+      .nav-links { display: flex; }
+      .nav-toggle { display: none; }
+    }
+
+    #nav-mobile {
+      position: fixed; inset: 0; background: var(--ivory); z-index: 99;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 2.2rem; opacity: 0; pointer-events: none; transition: opacity .3s;
+    }
+    #nav-mobile.open { opacity: 1; pointer-events: auto; }
+    #nav-mobile a {
+      font-family: var(--serif); font-size: 1.6rem; font-weight: 300;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--ink); text-decoration: none; transition: color .2s;
+    }
+    #nav-mobile a:hover { color: var(--terracotta); }
+    #nav-close {
+      position: absolute; top: 22px; right: 36px;
+      background: none; border: none; cursor: pointer;
+      font-family: var(--sans); font-size: .74rem; letter-spacing: .16em;
+      text-transform: uppercase; color: var(--ink-soft);
+    }
+
+    /* ── HERO ── */
+    #inicio { display: grid; min-height: 100svh; }
+    .hero-photo { line-height: 0; }
+    .hero-photo img { width: 100%; height: auto; display: block; }
+
+    .hero-panel {
+      padding: 80px 48px;
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; text-align: center; position: relative;
+    }
+    .hero-panel::before, .hero-panel::after {
+      content: '';
+      position: absolute;
+      width: 44px; height: 44px;
+      border-style: solid; border-color: var(--gold);
+    }
+    .hero-panel::before { top: 36px; left: 36px; border-width: 1px 0 0 1px; }
+    .hero-panel::after  { bottom: 36px; right: 36px; border-width: 0 1px 1px 0; }
+
+    @media (min-width: 768px) {
+      #inicio { grid-template-columns: 1fr 1fr; }
+      .hero-panel { order: -1; min-height: 100svh; padding: 96px 64px; }
+      .hero-photo { position: sticky; top: 0; align-self: start; height: 100svh; overflow: hidden; }
+      .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+    }
+    @media (max-width: 767px) {
+      .hero-panel { padding: 56px 32px; }
+      .hero-panel::before { top: 18px; left: 18px; }
+      .hero-panel::after  { bottom: 18px; right: 18px; }
+    }
+
+    .hero-eyebrow {
+      font-family: var(--sans); font-size: .74rem; letter-spacing: .28em;
+      text-transform: uppercase; color: var(--terracotta); margin-bottom: 1.4rem;
+    }
+    .hero-names {
+      font-family: var(--script); font-weight: 400;
+      font-size: clamp(4.5rem, 9vw, 7.5rem);
+      line-height: .9; color: var(--ink);
+      display: flex; flex-direction: column; align-items: center;
+    }
+    .hero-amp { font-size: .52em; color: var(--terracotta); display: block; margin: .18em 0; }
+
+    .hero-rule {
+      display: flex; align-items: center; gap: 12px;
+      margin: 1.8rem auto; width: 100%; max-width: 200px;
+    }
+    .hero-rule::before, .hero-rule::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+    .hero-diamond { width: 5px; height: 5px; background: var(--gold); transform: rotate(45deg); flex-shrink: 0; }
+
+    .hero-date {
+      font-family: var(--sans); font-size: .76rem; letter-spacing: .22em;
+      text-transform: uppercase; color: var(--ink-soft);
+    }
+    .hero-place {
+      font-family: var(--serif); font-style: italic; font-size: 1rem;
+      color: var(--ink-soft); margin-top: .3rem;
+    }
+
+    .hero-countdown { display: flex; gap: 2rem; margin: 2rem 0; align-items: baseline; }
+    .cd-item { text-align: center; }
+    .cd-num { font-family: var(--script); font-size: 2.8rem; font-weight: 400; display: block; color: var(--ink); line-height: 1; }
+    .cd-lbl { font-family: var(--sans); font-size: .70rem; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-soft); display: block; margin-top: .2rem; }
+
+    .hero-cta a {
+      font-family: var(--sans); font-size: .74rem; letter-spacing: .22em;
+      text-transform: uppercase; color: var(--terracotta); text-decoration: none;
+      border-bottom: 1px solid currentColor; padding-bottom: 2px; transition: opacity .2s;
+    }
+    .hero-cta a:hover { opacity: .6; }
+
+    /* ── BOTANICAL DIVIDER ── */
+    .div-wrap { display: flex; align-items: center; justify-content: center; padding: 52px 0; }
+
+    /* ── SECTIONS ── */
+    .sec { padding: 80px 24px; text-align: center; }
+    .sec-inner { max-width: 620px; margin: 0 auto; }
+
+    .sec-eyebrow {
+      font-family: var(--sans); font-size: .74rem; letter-spacing: .24em;
+      text-transform: uppercase; color: var(--terracotta); display: block; margin-bottom: .8rem;
+    }
+    .sec-title {
+      font-family: var(--display); font-size: clamp(3rem, 7vw, 5rem);
+      font-weight: 400; line-height: 1.05; color: var(--ink); margin-bottom: 1.8rem;
+    }
+    .sec-body { font-size: 1.05rem; line-height: 1.85; color: var(--ink-soft); max-width: 50ch; margin: 0 auto; }
+
+    /* ── PROGRAMA — invitation cards ── */
+    .prog-wrap {
+      display: grid; gap: 24px;
+      margin: 3rem auto 0; max-width: 660px;
+    }
+    @media (min-width: 580px) { .prog-wrap { grid-template-columns: 1fr 1fr; } }
+
+    .invite-card {
+      border: 1px solid var(--border);
+      padding: 48px 36px; text-align: center; position: relative;
+    }
+    .invite-card::before {
+      content: ''; position: absolute; inset: 7px;
+      border: 1px solid var(--border); opacity: .5; pointer-events: none;
+    }
+    .invite-type {
+      font-family: var(--sans); font-size: .72rem; letter-spacing: .22em;
+      text-transform: uppercase; color: var(--terracotta); display: block; margin-bottom: 1.2rem;
+    }
+    .invite-name { font-family: var(--display); font-size: 1.9rem; font-weight: 400; color: var(--ink); line-height: 1.2; margin-bottom: 1.5rem; }
+    .invite-rule { width: 48px; height: 1px; background: var(--border); margin: 1.4rem auto; }
+    .invite-line { font-family: var(--serif); font-size: 1rem; color: var(--ink-soft); font-style: italic; margin-bottom: .35rem; }
+    .invite-line strong { font-style: normal; color: var(--ink); font-weight: 500; }
+    .prog-note { margin: 1.8rem auto 0; max-width: 50ch; font-size: .96rem; font-style: italic; color: var(--ink-soft); }
+
+    /* ── STORIA PHOTOS ── */
+    .storia-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 2.5rem auto 0; max-width: 760px; }
+    .storia-photos img { width: 100%; height: auto; display: block; object-fit: cover; }
+    @media (min-width: 580px) {
+      .storia-photos { grid-template-columns: 1fr 1fr; }
+    }
+
+    .gatos-box { display: flex; flex-direction: column; align-items: center; gap: 1rem; margin: 3rem auto 0; max-width: 400px; text-align: center; }
+    .gatos-box img { width: 100%; max-width: 220px; height: auto; }
+    .gatos-box p { font-size: 1rem; color: var(--ink-soft); font-style: italic; }
+    .gatos-box strong { font-style: normal; color: var(--ink); }
+
+    /* ── GALLERY ── */
+    #fotos { padding: 80px 24px; max-width: 1100px; margin: 0 auto; }
+    .gallery { columns: 2; gap: 10px; margin-top: 2.5rem; }
+    @media (min-width: 640px) { .gallery { columns: 3; } }
+    @media (min-width: 960px) { .gallery { columns: 4; } }
+    .g-item { break-inside: avoid; margin-bottom: 10px; overflow: hidden; }
+    .g-item img { width: 100%; height: auto; display: block; transition: transform .6s cubic-bezier(.16,1,.3,1); }
+    .g-item:hover img { transform: scale(1.04); }
+
+    /* ── VESTIMENTA ── */
+    .vest-list { display: flex; flex-direction: column; margin: 2.5rem auto 0; max-width: 440px; text-align: left; }
+    .vest-item { padding: 1.4rem 0; border-bottom: 1px solid var(--border); }
+    .vest-item:last-child { border-bottom: none; }
+    .vest-item h4 { font-family: var(--display); font-size: 1.65rem; font-weight: 400; color: var(--ink); margin-bottom: .1rem; line-height: 1.2; }
+    .vest-item p { font-size: 1rem; color: var(--ink-soft); line-height: 1.7; }
+
+    /* ── FAQ ── */
+    .faq-list { display: flex; flex-direction: column; margin: 2.5rem auto 0; max-width: 520px; text-align: left; }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-q {
+      width: 100%; background: none; border: none; padding: 1.2rem 0;
+      text-align: left; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+      font-family: var(--serif); font-size: 1.02rem; font-weight: 500;
+      color: var(--ink); line-height: 1.45;
+    }
+    .faq-toggle { font-family: var(--sans); font-size: 1.1rem; color: var(--terracotta); flex-shrink: 0; transition: transform .3s; }
+    .faq-item.open .faq-toggle { transform: rotate(45deg); }
+    .faq-a { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .35s cubic-bezier(.16,1,.3,1); }
+    .faq-item.open .faq-a { grid-template-rows: 1fr; }
+    .faq-a-inner { overflow: hidden; }
+    .faq-a-inner p { padding-bottom: 1.2rem; font-size: 1rem; color: var(--ink-soft); line-height: 1.75; }
+
+    /* ── LOGÍSTICA ── */
+    .log-grid { display: grid; gap: 2.2rem; margin: 2.5rem auto 0; max-width: 540px; text-align: left; }
+    @media (min-width: 560px) { .log-grid { grid-template-columns: 1fr 1fr; } }
+    .log-item-title { font-family: var(--display); font-size: 1.6rem; font-weight: 400; color: var(--ink); margin-bottom: .7rem; line-height: 1.2; }
+    .log-item ul { list-style: none; display: flex; flex-direction: column; gap: .4rem; }
+    .log-item li { font-size: 1rem; color: var(--ink-soft); padding-left: 1rem; position: relative; }
+    .log-item li::before { content: '—'; position: absolute; left: 0; color: var(--terracotta); }
+    .log-item li strong { color: var(--ink); }
+
+    /* ── CARNAVAL ── */
+    .carnaval-block {
+      background: var(--terracotta); color: var(--ivory);
+      padding: 52px 44px; margin: 2.5rem auto 0; max-width: 520px; text-align: center;
+    }
+    .carnaval-title { font-family: var(--display); font-size: 2.6rem; font-weight: 400; margin-bottom: 1rem; }
+    .carnaval-body { font-size: 1.02rem; line-height: 1.75; opacity: .93; }
+    .carnaval-dates { display: block; margin-top: 1.5rem; font-family: var(--sans); font-size: .74rem; letter-spacing: .20em; text-transform: uppercase; opacity: .72; }
+
+    /* ── LUGARES ── */
+    .lugares-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2.5rem auto 0; max-width: 520px; text-align: left; }
+    @media (max-width: 460px) { .lugares-grid { grid-template-columns: 1fr; } }
+    .lugar-dist { font-family: var(--sans); font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: var(--terracotta); margin-bottom: .2rem; }
+    .lugar strong { font-family: var(--serif); font-size: 1rem; color: var(--ink); }
+    .lugar p { font-size: .96rem; color: var(--ink-soft); margin-top: .2rem; }
+
+    /* ── REGALOS ── */
+    .gift-grid { display: grid; gap: 2rem; margin: 2.5rem auto 0; max-width: 400px; text-align: left; }
+    @media (min-width: 460px) { .gift-grid { grid-template-columns: 1fr 1fr; } }
+    .gift-block-title { font-family: var(--sans); font-size: .74rem; letter-spacing: .20em; text-transform: uppercase; color: var(--terracotta); margin-bottom: .75rem; }
+    .gift-block ul { list-style: none; display: flex; flex-direction: column; gap: .35rem; }
+    .gift-block li { font-size: 1rem; color: var(--ink-soft); }
+    .gift-block li strong { color: var(--ink); }
+    .gift-note { grid-column: 1/-1; font-size: .95rem; font-style: italic; color: var(--ink-soft); text-align: center; padding-top: .5rem; }
+
+    /* ── RSVP ── */
+    #rsvp { background: var(--ink); padding: 100px 24px; text-align: center; }
+    .rsvp-inner { max-width: 480px; margin: 0 auto; }
+    .rsvp-title { font-family: var(--display); font-size: clamp(3.2rem, 8vw, 5.5rem); font-weight: 400; color: var(--ivory); line-height: 1.05; margin-bottom: 1.5rem; }
+    .rsvp-subtitle { font-family: var(--sans); font-size: .76rem; letter-spacing: .18em; text-transform: uppercase; color: oklch(.72 .03 68 / .5); margin-bottom: 2.5rem; }
+    .rsvp-subtitle strong { color: var(--terra-lt); }
+
+    .btn-ghost {
+      display: inline-block; padding: 15px 38px;
+      border: 1px solid oklch(.72 .03 68 / .3);
+      font-family: var(--sans); font-size: .76rem; letter-spacing: .20em;
+      text-transform: uppercase; color: var(--ivory); text-decoration: none;
+      transition: border-color .2s, background .2s;
+    }
+    .btn-ghost:hover { border-color: oklch(.72 .03 68 / .6); background: oklch(.72 .03 68 / .1); }
+
+    .rsvp-contacts { display: flex; gap: 2.5rem; justify-content: center; flex-wrap: wrap; margin-top: 3rem; }
+    .rsvp-contact-name { font-family: var(--sans); font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); margin-bottom: .3rem; }
+    .rsvp-contact a { font-size: 1rem; color: oklch(.78 .03 68 / .6); text-decoration: none; transition: color .2s; }
+    .rsvp-contact a:hover { color: var(--ivory); }
+
+    /* ── FOOTER ── */
+    footer { text-align: center; padding: 40px 24px; background: var(--ivory); }
+    footer .monogram { font-family: var(--display); font-size: 2.4rem; font-weight: 400; color: var(--ink); display: block; margin-bottom: .75rem; }
+    footer p { font-family: var(--sans); font-size: .74rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+
+    /* ── REVEAL ── */
+    .r { opacity: 0; transform: translateY(16px); transition: opacity .85s cubic-bezier(.16,1,.3,1), transform .85s cubic-bezier(.16,1,.3,1); }
+    .r.on { opacity: 1; transform: none; }
+    .r.d1 { transition-delay: .1s; }
+    .r.d2 { transition-delay: .22s; }
+    .r.d3 { transition-delay: .34s; }
+
+    /* ── FLOATING CAT MENU ── */
+    #cat-menu {
+      position: fixed; bottom: 28px; right: 28px; z-index: 98;
+      width: 68px; height: 68px;
+      background: var(--ivory);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      overflow: hidden;
+      cursor: pointer; padding: 0;
+      box-shadow: 0 4px 22px oklch(0.56 0.11 38 / .16);
+      animation: cat-float 3.4s ease-in-out infinite;
+      transition: box-shadow .3s;
+    }
+    #cat-menu:hover {
+      box-shadow: 0 6px 30px oklch(0.56 0.11 38 / .28);
+    }
+    #cat-menu:active { transform: scale(0.90) !important; }
+    #cat-menu svg { width: 100%; height: 100%; display: block; }
+
+    @keyframes cat-float {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-7px); }
+    }
+#cat-menu .cat-label {
+      position: absolute; bottom: calc(100% + 8px); right: 0;
+      font-family: var(--sans); font-size: .72rem; letter-spacing: .16em;
+      text-transform: uppercase; color: var(--ink-soft);
+      background: var(--ivory); border: 1px solid var(--border);
+      padding: 4px 10px; white-space: nowrap;
+      opacity: 0; transform: translateY(4px);
+      transition: opacity .25s, transform .25s;
+      pointer-events: none;
+    }
+    #cat-menu:hover .cat-label {
+      opacity: 1; transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="#inicio" class="nav-brand">C &amp; E</a>
+  <ul class="nav-links">
+    <li><a href="#historia">Historia</a></li>
+    <li><a href="#fotos">Fotos</a></li>
+    <li><a href="#programa">Programa</a></li>
+    <li><a href="#vestimenta">Vestimenta</a></li>
+    <li><a href="#logistica">Logística</a></li>
+    <li><a href="#rsvp">RSVP</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle">Menú</button>
+</nav>
+
+<div id="nav-mobile">
+  <button id="nav-close">Cerrar</button>
+  <a href="#historia">Historia</a>
+  <a href="#fotos">Fotos</a>
+  <a href="#programa">Programa</a>
+  <a href="#vestimenta">Vestimenta</a>
+  <a href="#faq">Preguntas</a>
+  <a href="#logistica">Logística</a>
+  <a href="#datos">Colombia</a>
+  <a href="#futuro">Regalos</a>
+  <a href="#rsvp">RSVP</a>
+</div>
+
+<!-- ── FLOATING CAT ── -->
+<button id="cat-menu" aria-label="Abrir menú">
+  <span class="cat-label">Menú</span>
+  <svg viewBox="0 -250 800 850" xmlns="http://www.w3.org/2000/svg">
+    <path d="M 200 600 L 200 280 Q 200 220 250 250 L 300 330 Q 320 360 360 360 L 440 360 Q 480 360 500 330 L 550 250 Q 600 220 600 280 L 600 600 Z" fill="#1c1c1c"/>
+    <ellipse cx="310" cy="480" rx="60" ry="60" fill="#fcd000"/>
+    <ellipse id="pupil-l" cx="310" cy="480" rx="35" ry="35" fill="#1c1c1c"/>
+    <ellipse cx="490" cy="480" rx="60" ry="60" fill="#fcd000"/>
+    <ellipse id="pupil-r" cx="490" cy="480" rx="35" ry="35" fill="#1c1c1c"/>
+    <path d="M 385 515 C 385 500,415 500,415 515 C 415 535,400 540,400 540 C 400 540,385 535,385 515 Z" fill="#404040"/>
+  </svg>
+</button>
+
+<main>
+
+<!-- ═══ HERO ═══ -->
+<section id="inicio">
+  <div class="hero-photo">
+    <img src="ec%20(5).jpeg" alt="Catalina y Enrique" loading="eager">
+  </div>
+  <div class="hero-panel">
+    <!-- botanical sprig -->
+    <svg width="86" height="50" viewBox="0 0 86 50" fill="none" style="margin-bottom:1.5rem" aria-hidden="true">
+      <path d="M43 48 Q41 34 39 22 Q37 12 36 6" stroke="#4D5A3E" stroke-width="0.85" stroke-linecap="round"/>
+      <path d="M39 22 Q30 20 26 13 Q34 17 39 22" fill="#4D5A3E" opacity="0.5"/>
+      <path d="M39 22 Q48 20 52 13 Q44 17 39 22" fill="#4D5A3E" opacity="0.5"/>
+      <path d="M40 33 Q31 33 27 26 Q35 29 40 33" fill="#4D5A3E" opacity="0.38"/>
+      <path d="M40 33 Q49 33 53 26 Q45 29 40 33" fill="#4D5A3E" opacity="0.38"/>
+      <circle cx="36" cy="6" r="2.2" fill="#4D5A3E" opacity="0.38"/>
+      <circle cx="32" cy="3" r="1.6" fill="#4D5A3E" opacity="0.28"/>
+      <circle cx="39" cy="2" r="1.9" fill="#4D5A3E" opacity="0.32"/>
+    </svg>
+
+    <p class="hero-eyebrow">Nos casamos</p>
+    <div class="hero-names">
+      <span>Catalina</span>
+      <span class="hero-amp">&amp;</span>
+      <span>Enrique</span>
+    </div>
+
+    <div class="hero-rule"><div class="hero-diamond"></div></div>
+
+    <p class="hero-date">9 · Enero · 2027</p>
+    <p class="hero-place">Pasto, Nariño, Colombia</p>
+
+    <div class="hero-countdown" id="countdown">
+      <div class="cd-item"><span class="cd-num" id="cd-d">–</span><span class="cd-lbl">Días</span></div>
+      <div class="cd-item"><span class="cd-num" id="cd-h">–</span><span class="cd-lbl">Horas</span></div>
+      <div class="cd-item"><span class="cd-num" id="cd-m">–</span><span class="cd-lbl">Min</span></div>
+    </div>
+
+    <div class="hero-cta"><a href="#rsvp">Confirmar asistencia</a></div>
+  </div>
+</section>
+
+<!-- divider -->
+<div class="div-wrap" aria-hidden="true">
+  <svg width="320" height="68" viewBox="0 0 320 68" fill="none">
+    <line x1="0" y1="34" x2="128" y2="34" stroke="#4D5A3E" stroke-width="0.5" opacity="0.32"/>
+    <line x1="192" y1="34" x2="320" y2="34" stroke="#4D5A3E" stroke-width="0.5" opacity="0.32"/>
+    <path d="M160 66 Q158 50 155 37 Q152 25 150 17" stroke="#4D5A3E" stroke-width="0.9" stroke-linecap="round"/>
+    <path d="M155 37 Q143 36 138 27 Q147 31 155 37" fill="#4D5A3E" opacity="0.5"/>
+    <path d="M155 37 Q167 36 172 27 Q163 31 155 37" fill="#4D5A3E" opacity="0.5"/>
+    <path d="M157 49 Q145 50 140 41 Q149 44 157 49" fill="#4D5A3E" opacity="0.38"/>
+    <path d="M157 49 Q169 50 174 41 Q165 44 157 49" fill="#4D5A3E" opacity="0.38"/>
+    <circle cx="150" cy="17" r="2.4" fill="#4D5A3E" opacity="0.36"/>
+    <circle cx="146" cy="13" r="1.7" fill="#4D5A3E" opacity="0.28"/>
+    <circle cx="153" cy="12" r="2" fill="#4D5A3E" opacity="0.3"/>
+  </svg>
+</div>
+
+<!-- ═══ HISTORIA ═══ -->
+<section id="historia" class="sec">
+  <div class="sec-inner">
+    <span class="sec-eyebrow r">Nuestra historia</span>
+    <h2 class="sec-title r">¿Qué pasa cuando mezclas café colombiano, herencia peruano-dominicana y un acento americano?</h2>
+    <p class="sec-body r">Así nace la historia de amor más hermosa de nuestras vidas.</p>
+    <div class="sec-body r" style="margin-top:1.5rem">
+      <p>Combinando culturas diferentes, dos idiomas y los ronroneos de nuestros bebés peludos, <strong>Natilla y Buñuelo</strong> — quienes obviamente aprobaron esta unión desde el primer día — hemos construido un hogar lleno de complicidad y muchísimo amor.</p>
+      <br>
+      <p>Porque las mejores historias se escriben juntas, queremos que formes parte del día en que diremos <em>"sí, acepto"</em>. ¡Nos casamos y no podríamos celebrarlo sin ti!</p>
+    </div>
+
+    <div class="storia-photos r">
+      <img src="ec%20(2).jpeg" alt="Catalina y Enrique">
+      <img src="ec%20(8).jpeg" alt="Catalina y Enrique">
+      <img src="ec%20(11).jpeg" alt="Catalina y Enrique">
+      <img src="ec%20(14).jpeg" alt="Catalina y Enrique">
+    </div>
+
+    <div class="gatos-box r">
+      <img src="gato%20(1).jpeg" alt="Natilla y Buñuelo">
+      <p><strong>Natilla</strong> (la jefa) y <strong>Buñuelo</strong> (el co-piloto) llevan años coordinando la logística del hogar. Para esta boda, ya tienen su plan de vuelo listo. Nosotros solo seguimos sus instrucciones.</p>
+    </div>
+  </div>
+</section>
+
+<!-- divider -->
+<div class="div-wrap" aria-hidden="true">
+  <svg width="160" height="20" viewBox="0 0 160 20" fill="none">
+    <line x1="0" y1="10" x2="68" y2="10" stroke="#4D5A3E" stroke-width="0.5" opacity="0.38"/>
+    <circle cx="80" cy="10" r="2.5" fill="#4D5A3E" opacity="0.48"/>
+    <circle cx="73" cy="10" r="1.5" fill="#4D5A3E" opacity="0.28"/>
+    <circle cx="87" cy="10" r="1.5" fill="#4D5A3E" opacity="0.28"/>
+    <line x1="92" y1="10" x2="160" y2="10" stroke="#4D5A3E" stroke-width="0.5" opacity="0.38"/>
+  </svg>
+</div>
+
+<!-- ═══ FOTOS ═══ -->
+<section id="fotos">
+  <div style="text-align:center;padding:0 24px" class="r">
+    <span class="sec-eyebrow">Nuestra vida juntos</span>
+    <h2 class="sec-title" style="margin-bottom:0">Fotos</h2>
+  </div>
+  <div style="padding:0 24px;max-width:1100px;margin:0 auto">
+    <div class="gallery r">
+      <div class="g-item"><img src="ec%20(3).jpeg" alt=""></div>
+      <div class="g-item"><img src="ec%20(6).jpeg" alt=""></div>
+      <div class="g-item"><img src="ec%20(15).jpeg" alt=""></div>
+      <div class="g-item"><img src="ec%20(16).jpeg" alt=""></div>
+      <div class="g-item"><img src="ec%20(9).jpeg" alt=""></div>
+      <div class="g-item"><img src="ec%20(17).jpeg" alt=""></div>
+      <div class="g-item"><img src="ec%20(1).jpeg" alt=""></div>
+      <div class="g-item"><img src="ec%20(13).jpeg" alt=""></div>
+      <div class="g-item"><img src="ec%20(18).jpeg" alt=""></div>
+      <div class="g-item"><img src="ec%20(4).jpeg" alt=""></div>
+      <div class="g-item"><img src="ec%20(12).jpeg" alt=""></div>
+      <div class="g-item"><img src="ec%20(20).jpeg" alt=""></div>
+      <div class="g-item"><img src="ec%20(7).jpeg" alt=""></div>
+      <div class="g-item"><img src="ec%20(19).jpeg" alt=""></div>
+      <div class="g-item"><img src="ec%20(21).jpeg" alt=""></div>
+      <div class="g-item"><img src="ec%20(22).jpeg" alt=""></div>
+      <div class="g-item"><img src="ec%20(23).jpeg" alt=""></div>
+    </div>
+  </div>
+</section>
+
+<!-- divider -->
+<div class="div-wrap" aria-hidden="true">
+  <svg width="320" height="68" viewBox="0 0 320 68" fill="none">
+    <line x1="0" y1="34" x2="128" y2="34" stroke="#4D5A3E" stroke-width="0.5" opacity="0.32"/>
+    <line x1="192" y1="34" x2="320" y2="34" stroke="#4D5A3E" stroke-width="0.5" opacity="0.32"/>
+    <path d="M160 66 Q158 50 155 37 Q152 25 150 17" stroke="#4D5A3E" stroke-width="0.9" stroke-linecap="round"/>
+    <path d="M155 37 Q143 36 138 27 Q147 31 155 37" fill="#4D5A3E" opacity="0.5"/>
+    <path d="M155 37 Q167 36 172 27 Q163 31 155 37" fill="#4D5A3E" opacity="0.5"/>
+    <path d="M157 49 Q145 50 140 41 Q149 44 157 49" fill="#4D5A3E" opacity="0.38"/>
+    <path d="M157 49 Q169 50 174 41 Q165 44 157 49" fill="#4D5A3E" opacity="0.38"/>
+    <circle cx="150" cy="17" r="2.4" fill="#4D5A3E" opacity="0.36"/>
+    <circle cx="146" cy="13" r="1.7" fill="#4D5A3E" opacity="0.28"/>
+    <circle cx="153" cy="12" r="2" fill="#4D5A3E" opacity="0.3"/>
+  </svg>
+</div>
+
+<!-- ═══ PROGRAMA ═══ -->
+<section id="programa" class="sec">
+  <div class="sec-inner">
+    <span class="sec-eyebrow r">Sábado, 9 de Enero de 2027</span>
+    <h2 class="sec-title r">El programa del día</h2>
+
+    <div class="prog-wrap">
+      <div class="invite-card r d1">
+        <span class="invite-type">Ceremonia religiosa</span>
+        <h3 class="invite-name">Casa De Ejercicios<br>De San Ignacio</h3>
+        <div class="invite-rule"></div>
+        <p class="invite-line">Sábado, 9 de Enero de 2027</p>
+        <p class="invite-line"><strong>1:00 PM – 2:00 PM</strong></p>
+        <p class="invite-line" style="margin-top:.3rem">Llegar a las 12:30 PM</p>
+        <div class="invite-rule"></div>
+        <p class="invite-line">Calle 15 #15, Pasto, Nariño</p>
+      </div>
+      <div class="invite-card r d2">
+        <span class="invite-type">Recepción</span>
+        <h3 class="invite-name">Centro Sinergia</h3>
+        <div class="invite-rule"></div>
+        <p class="invite-line">Sábado, 9 de Enero de 2027</p>
+        <p class="invite-line"><strong>3:00 PM – 1:00 AM</strong></p>
+        <div class="invite-rule"></div>
+        <p class="invite-line">Vía Chapalito, Pasto, Nariño</p>
+      </div>
+    </div>
+    <p class="prog-note r">Entorno campestre con zonas verdes — por favor lleguen puntuales a la ceremonia.</p>
+  </div>
+</section>
+
+<!-- divider -->
+<div class="div-wrap" aria-hidden="true">
+  <svg width="160" height="20" viewBox="0 0 160 20" fill="none">
+    <line x1="0" y1="10" x2="68" y2="10" stroke="#4D5A3E" stroke-width="0.5" opacity="0.38"/>
+    <circle cx="80" cy="10" r="2.5" fill="#4D5A3E" opacity="0.48"/>
+    <circle cx="73" cy="10" r="1.5" fill="#4D5A3E" opacity="0.28"/>
+    <circle cx="87" cy="10" r="1.5" fill="#4D5A3E" opacity="0.28"/>
+    <line x1="92" y1="10" x2="160" y2="10" stroke="#4D5A3E" stroke-width="0.5" opacity="0.38"/>
+  </svg>
+</div>
+
+<!-- ═══ VESTIMENTA ═══ -->
+<section id="vestimenta" class="sec">
+  <div class="sec-inner">
+    <span class="sec-eyebrow r">Cómo venir vestido</span>
+    <h2 class="sec-title r">Formal Campestre</h2>
+    <p class="sec-body r">Nuestra celebración es en un entorno campestre donde refresca al atardecer.</p>
+
+    <div class="vest-list">
+      <div class="vest-item r d1">
+        <h4>Para ellos</h4>
+        <p>Traje formal en tonos neutros: beige, gris, azul marino o negro. Sin jeans ni shorts.</p>
+      </div>
+      <div class="vest-item r d2">
+        <h4>Para ellas</h4>
+        <p>Vestidos largos o midi en tonos suaves y elegantes. Eviten los tacones de aguja — el lugar tiene muchas zonas verdes. Prefieran wedges, plataformas o sandalias elegantes.</p>
+      </div>
+      <div class="vest-item r d3">
+        <h4>Trae un abrigo</h4>
+        <p>Enero en Pasto refresca de noche hasta los 8°C–10°C. Un abrigo elegante es la decisión correcta.</p>
+      </div>
+      <div class="vest-item r">
+        <h4>Sin blanco, por favor</h4>
+        <p>Les pedimos amablemente reservar el blanco para la novia. ¡Gracias por su comprensión!</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- divider -->
+<div class="div-wrap" aria-hidden="true">
+  <svg width="320" height="68" viewBox="0 0 320 68" fill="none">
+    <line x1="0" y1="34" x2="128" y2="34" stroke="#4D5A3E" stroke-width="0.5" opacity="0.32"/>
+    <line x1="192" y1="34" x2="320" y2="34" stroke="#4D5A3E" stroke-width="0.5" opacity="0.32"/>
+    <path d="M160 66 Q158 50 155 37 Q152 25 150 17" stroke="#4D5A3E" stroke-width="0.9" stroke-linecap="round"/>
+    <path d="M155 37 Q143 36 138 27 Q147 31 155 37" fill="#4D5A3E" opacity="0.5"/>
+    <path d="M155 37 Q167 36 172 27 Q163 31 155 37" fill="#4D5A3E" opacity="0.5"/>
+    <path d="M157 49 Q145 50 140 41 Q149 44 157 49" fill="#4D5A3E" opacity="0.38"/>
+    <path d="M157 49 Q169 50 174 41 Q165 44 157 49" fill="#4D5A3E" opacity="0.38"/>
+    <circle cx="150" cy="17" r="2.4" fill="#4D5A3E" opacity="0.36"/>
+    <circle cx="146" cy="13" r="1.7" fill="#4D5A3E" opacity="0.28"/>
+    <circle cx="153" cy="12" r="2" fill="#4D5A3E" opacity="0.3"/>
+  </svg>
+</div>
+
+<!-- ═══ FAQ ═══ -->
+<section id="faq" class="sec">
+  <div class="sec-inner">
+    <span class="sec-eyebrow r">¿Tienen dudas?</span>
+    <h2 class="sec-title r">Preguntas frecuentes</h2>
+
+    <div class="r" style="text-align:center;margin-bottom:1.5rem">
+      <img src="gato%20(3).jpeg" alt="Natilla y Buñuelo" style="width:100%;max-width:240px;height:auto;display:block;margin:0 auto .7rem">
+      <p style="font-size:.94rem;font-style:italic;color:var(--ink-soft)">Natilla y Buñuelo también tenían muchas dudas.</p>
+    </div>
+
+    <div class="faq-list r">
+      <div class="faq-item">
+        <button class="faq-q">¿Cuándo es la fecha límite para confirmar?<span class="faq-toggle">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner"><p>La fecha límite es el <strong>30 de junio de 2026</strong>. Por favor avísennos antes para poder finalizar los preparativos.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">¿Se permiten niños en la boda?<span class="faq-toggle">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner"><p>La celebración es exclusivamente para adultos. ¡Esperamos que este aviso con tiempo les ayude a organizarse!</p></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">¿Tengo alguna restricción alimentaria?<span class="faq-toggle">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner"><p>¡Tu bienestar es importante! Si tienes alergias o restricciones, avísanos al <strong>+1 908-297-4281</strong>. Haremos todo lo posible para adaptar el menú.</p></div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">¿A quién puedo contactar si tengo dudas?<span class="faq-toggle">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner"><p>¡Escríbennos por WhatsApp!<br><strong>Cata:</strong> +1 908-297-4281<br><strong>Ricky:</strong> +1 862-258-0184</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- divider -->
+<div class="div-wrap" aria-hidden="true">
+  <svg width="160" height="20" viewBox="0 0 160 20" fill="none">
+    <line x1="0" y1="10" x2="68" y2="10" stroke="#4D5A3E" stroke-width="0.5" opacity="0.38"/>
+    <circle cx="80" cy="10" r="2.5" fill="#4D5A3E" opacity="0.48"/>
+    <circle cx="73" cy="10" r="1.5" fill="#4D5A3E" opacity="0.28"/>
+    <circle cx="87" cy="10" r="1.5" fill="#4D5A3E" opacity="0.28"/>
+    <line x1="92" y1="10" x2="160" y2="10" stroke="#4D5A3E" stroke-width="0.5" opacity="0.38"/>
+  </svg>
+</div>
+
+<!-- ═══ LOGÍSTICA ═══ -->
+<section id="logistica" class="sec">
+  <div class="sec-inner">
+    <span class="sec-eyebrow r">Cómo llegar</span>
+    <h2 class="sec-title r">Logística y alojamiento</h2>
+
+    <div class="log-grid">
+      <div class="log-item r d1">
+        <h3 class="log-item-title">Vuelos</h3>
+        <ul>
+          <li>Aeropuerto <strong>Antonio Nariño (PSO)</strong></li>
+          <li>~1 hora desde Bogotá</li>
+          <li>60 min del aeropuerto al evento</li>
+          <li>La mayoría de extranjeros no necesitan visa</li>
+          <li>Pasaporte con mínimo 6 meses de vigencia</li>
+          <li>Busca vuelos en <strong>skyscanner.net</strong></li>
+        </ul>
+      </div>
+      <div class="log-item r d2">
+        <h3 class="log-item-title">Transporte</h3>
+        <ul>
+          <li>Taxis oficiales del aeropuerto</li>
+          <li>Uber disponible en Pasto</li>
+          <li>Renta de autos en la terminal</li>
+        </ul>
+      </div>
+    </div>
+
+    <img src="gato%20(5).jpeg" alt="Bienvenidos a Pasto" style="width:100%;max-width:420px;height:auto;display:block;margin:2.5rem auto;" class="r">
+
+    <h3 class="sec-title r" style="font-size:clamp(2.2rem,5vw,3.5rem);margin-bottom:1.5rem">Hoteles recomendados</h3>
+    <div class="log-grid r">
+      <div class="log-item">
+        <h3 class="log-item-title">Hotel Palermo Suite</h3>
+        <ul>
+          <li>Calle 19 #39-10B, Pasto</li>
+          <li>Restaurante regional</li>
+          <li>WiFi y parqueadero gratis</li>
+        </ul>
+      </div>
+      <div class="log-item">
+        <h3 class="log-item-title">Café y Miel Rotamundos</h3>
+        <ul>
+          <li>Cra. 47 #17-23, Pasto</li>
+          <li>Desayuno incluido</li>
+          <li>Piso calefaccionado</li>
+        </ul>
+      </div>
+      <div class="log-item">
+        <h3 class="log-item-title">Hotel Zarcillejo</h3>
+        <ul>
+          <li>Cra. 40A #17A-21, Pasto</li>
+          <li>Shuttle al aeropuerto</li>
+          <li>Desayuno continental</li>
+        </ul>
+      </div>
+      <div class="log-item">
+        <h3 class="log-item-title">Nogal Suite Hotel</h3>
+        <ul>
+          <li>Cra. 29 #16B-75, Pasto</li>
+          <li>Desayuno incluido</li>
+          <li>Parqueadero gratis</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- divider -->
+<div class="div-wrap" aria-hidden="true">
+  <svg width="320" height="68" viewBox="0 0 320 68" fill="none">
+    <line x1="0" y1="34" x2="128" y2="34" stroke="#4D5A3E" stroke-width="0.5" opacity="0.32"/>
+    <line x1="192" y1="34" x2="320" y2="34" stroke="#4D5A3E" stroke-width="0.5" opacity="0.32"/>
+    <path d="M160 66 Q158 50 155 37 Q152 25 150 17" stroke="#4D5A3E" stroke-width="0.9" stroke-linecap="round"/>
+    <path d="M155 37 Q143 36 138 27 Q147 31 155 37" fill="#4D5A3E" opacity="0.5"/>
+    <path d="M155 37 Q167 36 172 27 Q163 31 155 37" fill="#4D5A3E" opacity="0.5"/>
+    <path d="M157 49 Q145 50 140 41 Q149 44 157 49" fill="#4D5A3E" opacity="0.38"/>
+    <path d="M157 49 Q169 50 174 41 Q165 44 157 49" fill="#4D5A3E" opacity="0.38"/>
+    <circle cx="150" cy="17" r="2.4" fill="#4D5A3E" opacity="0.36"/>
+    <circle cx="146" cy="13" r="1.7" fill="#4D5A3E" opacity="0.28"/>
+    <circle cx="153" cy="12" r="2" fill="#4D5A3E" opacity="0.3"/>
+  </svg>
+</div>
+
+<!-- ═══ COLOMBIA ═══ -->
+<section id="datos" class="sec">
+  <div class="sec-inner">
+    <span class="sec-eyebrow r">Aprovecha el viaje</span>
+    <h2 class="sec-title r">Colombia te espera</h2>
+
+    <div class="carnaval-block r">
+      <h3 class="carnaval-title">Carnaval de Negros y Blancos</h3>
+      <p class="carnaval-body">Nuestra boda coincide con el legendario Carnaval de Pasto, Patrimonio Cultural de la Humanidad — lleno de música, arte y alegría. Si llegas unos días antes, ¡sumérgete en esta tradición única!</p>
+      <span class="carnaval-dates">Del 2 al 7 de Enero · Pasto, Nariño</span>
+    </div>
+
+    <img src="ec%20(10).jpeg" alt="Santuario de Las Lajas" style="width:100%;max-width:640px;height:auto;display:block;margin:2.5rem auto;" class="r">
+
+    <div class="r" style="text-align:center;margin-bottom:2rem">
+      <img src="gato%20(7).jpeg" alt="Natilla y Buñuelo" style="width:100%;max-width:260px;height:auto;display:block;margin:0 auto .6rem">
+      <p style="font-size:.94rem;font-style:italic;color:var(--ink-soft)">Natilla y Buñuelo ya reservaron su vuelo a Las Lajas.</p>
+    </div>
+
+    <h3 class="sec-title r" style="font-size:clamp(2.2rem,5vw,3.5rem);margin-bottom:1.5rem">Lugares por conocer</h3>
+
+    <div class="lugares-grid r">
+      <div class="lugar">
+        <p class="lugar-dist">A 90 km</p>
+        <strong>Santuario de Las Lajas</strong>
+        <p>La catedral gótica más bella del mundo, construida sobre un cañón.</p>
+      </div>
+      <div class="lugar">
+        <p class="lugar-dist">A 25 km</p>
+        <strong>Laguna de La Cocha</strong>
+        <p>Lago alpino rodeado de casitas coloridas — paisaje de cuento.</p>
+      </div>
+      <div class="lugar">
+        <p class="lugar-dist">A 15 km</p>
+        <strong>Volcán Galeras</strong>
+        <p>El guardián de Pasto. Vistas increíbles desde el páramo.</p>
+      </div>
+      <div class="lugar">
+        <p class="lugar-dist">A 100 km</p>
+        <strong>Tulcán, Ecuador</strong>
+        <p>Cementerio botánico con esculturas en ciprés. ¡No olvides el pasaporte!</p>
+      </div>
+    </div>
+
+    <p class="sec-body r" style="margin-top:2.5rem">Enero en Pasto es temporada seca — días despejados, 16°C–19°C durante el día, y fresco de noche. ¡El clima perfecto para celebrar!</p>
+  </div>
+</section>
+
+<!-- divider -->
+<div class="div-wrap" aria-hidden="true">
+  <svg width="160" height="20" viewBox="0 0 160 20" fill="none">
+    <line x1="0" y1="10" x2="68" y2="10" stroke="#4D5A3E" stroke-width="0.5" opacity="0.38"/>
+    <circle cx="80" cy="10" r="2.5" fill="#4D5A3E" opacity="0.48"/>
+    <circle cx="73" cy="10" r="1.5" fill="#4D5A3E" opacity="0.28"/>
+    <circle cx="87" cy="10" r="1.5" fill="#4D5A3E" opacity="0.28"/>
+    <line x1="92" y1="10" x2="160" y2="10" stroke="#4D5A3E" stroke-width="0.5" opacity="0.38"/>
+  </svg>
+</div>
+
+<!-- ═══ REGALOS ═══ -->
+<section id="futuro" class="sec">
+  <div class="sec-inner">
+    <span class="sec-eyebrow r">Detalles para nuestro futuro</span>
+    <h2 class="sec-title r">El mejor regalo eres tú</h2>
+    <p class="sec-body r">Tu compañía es nuestro mayor regalo. Si desean tener un detalle con nosotros, agradeceremos cualquier contribución que nos ayude a seguir construyendo nuestro hogar.</p>
+
+    <div class="gift-grid">
+      <div class="gift-block r d1">
+        <h4 class="gift-block-title">Colombia</h4>
+        <ul>
+          <li><strong>Nequi</strong> 3163397200</li>
+        </ul>
+      </div>
+      <div class="gift-block r d2">
+        <h4 class="gift-block-title">Estados Unidos</h4>
+        <ul>
+          <li><strong>PayPal</strong> @catalinalopezmora91</li>
+          <li><strong>Zelle</strong> 908-297-4281</li>
+          <li><strong>Venmo</strong> @Jenny-Lopez-251</li>
+        </ul>
+      </div>
+      <p class="gift-note r">En la recepción habrá un cofre para quienes prefieran un sobre físico.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ RSVP ═══ -->
+<div id="rsvp">
+  <div class="rsvp-inner">
+    <svg width="86" height="50" viewBox="0 0 86 50" fill="none" style="margin-bottom:1.5rem" aria-hidden="true">
+      <path d="M43 48 Q41 34 39 22 Q37 12 36 6" stroke="#FAF8F4" stroke-width="0.85" stroke-linecap="round" opacity="0.35"/>
+      <path d="M39 22 Q30 20 26 13 Q34 17 39 22" fill="#FAF8F4" opacity="0.25"/>
+      <path d="M39 22 Q48 20 52 13 Q44 17 39 22" fill="#FAF8F4" opacity="0.25"/>
+      <path d="M40 33 Q31 33 27 26 Q35 29 40 33" fill="#FAF8F4" opacity="0.18"/>
+      <path d="M40 33 Q49 33 53 26 Q45 29 40 33" fill="#FAF8F4" opacity="0.18"/>
+      <circle cx="36" cy="6" r="2.2" fill="#FAF8F4" opacity="0.22"/>
+      <circle cx="32" cy="3" r="1.6" fill="#FAF8F4" opacity="0.17"/>
+      <circle cx="39" cy="2" r="1.9" fill="#FAF8F4" opacity="0.2"/>
+    </svg>
+
+    <h2 class="rsvp-title">¿Vendrás a celebrar?</h2>
+    <p class="rsvp-subtitle">Confirmar antes del <strong>30 de junio de 2026</strong></p>
+
+    <a href="https://wa.me/19082974281?text=%C2%A1Hola%20Cata!%20Confirmo%20mi%20asistencia%20a%20su%20boda%20el%209%20de%20enero%20de%202027%20%F0%9F%8E%8A" class="btn-ghost">
+      Confirmar por WhatsApp
+    </a>
+
+    <div class="rsvp-contacts">
+      <div class="rsvp-contact">
+        <p class="rsvp-contact-name">Catalina</p>
+        <a href="tel:+19082974281">+1 908-297-4281</a>
+      </div>
+      <div class="rsvp-contact">
+        <p class="rsvp-contact-name">Enrique</p>
+        <a href="tel:+18622580184">+1 862-258-0184</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  <span class="monogram">C &amp; E</span>
+  <p>9 de Enero · 2027 · Pasto, Nariño, Colombia</p>
+</footer>
+
+<script>
+  function tick() {
+    const wed = new Date('2027-01-09T13:00:00-05:00');
+    const diff = wed - Date.now();
+    if (diff <= 0) {
+      document.getElementById('countdown').innerHTML = '<p style="font-family:var(--script);font-size:1.8rem;color:var(--terracotta)">¡Hoy es el día!</p>';
+      return;
+    }
+    document.getElementById('cd-d').textContent = Math.floor(diff / 86400000);
+    document.getElementById('cd-h').textContent = Math.floor((diff % 86400000) / 3600000);
+    document.getElementById('cd-m').textContent = Math.floor((diff % 3600000) / 60000);
+  }
+  tick();
+  setInterval(tick, 30000);
+
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('vis', scrollY > 80), { passive: true });
+
+  const mob = document.getElementById('nav-mobile');
+  document.getElementById('navToggle').addEventListener('click', () => mob.classList.add('open'));
+  document.getElementById('nav-close').addEventListener('click', () => mob.classList.remove('open'));
+  mob.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mob.classList.remove('open')));
+
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } });
+  }, { threshold: 0.06, rootMargin: '0px 0px -24px 0px' });
+  document.querySelectorAll('.r').forEach(el => io.observe(el));
+
+  const catBtn = document.getElementById('cat-menu');
+  catBtn.addEventListener('click', () => mob.classList.toggle('open'));
+
+  // ── CAT EYE TRACKING ──
+  const pupilL = document.getElementById('pupil-l');
+  const pupilR = document.getElementById('pupil-r');
+  const BASE_L = { x: 310, y: 480 };
+  const BASE_R = { x: 490, y: 480 };
+  const MAX_OFFSET = 18;
+  let cur = { lx: 310, ly: 480, rx: 490, ry2: 480 };
+  let tgt = { lx: 310, ly: 480, rx: 490, ry2: 480 };
+  let blinkRy = 35;
+  let blinking = false;
+
+  function calcTarget(mouseX, mouseY) {
+    const r = catBtn.getBoundingClientRect();
+    const cx = r.left + r.width / 2;
+    const cy = r.top + r.height / 2;
+    const dx = mouseX - cx;
+    const dy = mouseY - cy;
+    const ang = Math.atan2(dy, dx);
+    const str = Math.min(Math.sqrt(dx*dx + dy*dy) / 180, 1);
+    const ox = Math.cos(ang) * MAX_OFFSET * str;
+    const oy = Math.sin(ang) * MAX_OFFSET * str;
+    tgt.lx = BASE_L.x + ox;
+    tgt.ly = BASE_L.y + oy;
+    tgt.rx = BASE_R.x + ox;
+    tgt.ry2 = BASE_R.y + oy;
+  }
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  function loop() {
+    cur.lx = lerp(cur.lx, tgt.lx, 0.13);
+    cur.ly = lerp(cur.ly, tgt.ly, 0.13);
+    cur.rx = lerp(cur.rx, tgt.rx, 0.13);
+    cur.ry2 = lerp(cur.ry2, tgt.ry2, 0.13);
+    pupilL.setAttribute('cx', cur.lx.toFixed(1));
+    pupilL.setAttribute('cy', cur.ly.toFixed(1));
+    pupilR.setAttribute('cx', cur.rx.toFixed(1));
+    pupilR.setAttribute('cy', cur.ry2.toFixed(1));
+    if (!blinking) {
+      pupilL.setAttribute('ry', 35);
+      pupilR.setAttribute('ry', 35);
+    }
+    requestAnimationFrame(loop);
+  }
+  loop();
+
+  function doBlink() {
+    blinking = true;
+    let t = 0;
+    const iv = setInterval(() => {
+      t += 0.18;
+      const ry = t < 1 ? Math.max(0, 35 * (1 - t)) : Math.min(35, 35 * (t - 1));
+      pupilL.setAttribute('ry', ry);
+      pupilR.setAttribute('ry', ry);
+      if (t >= 2) { clearInterval(iv); blinking = false; scheduleBlink(); }
+    }, 25);
+  }
+  function scheduleBlink() {
+    setTimeout(doBlink, 1800 + Math.random() * 3200);
+  }
+  scheduleBlink();
+
+  function doRandomLook() {
+    const ang = Math.random() * Math.PI * 2;
+    const d   = 80 + Math.random() * 120;
+    const r   = catBtn.getBoundingClientRect();
+    calcTarget(r.left + r.width/2 + Math.cos(ang)*d, r.top + r.height/2 + Math.sin(ang)*d);
+    setTimeout(() => scheduleRandomLook(), 600 + Math.random() * 500);
+  }
+  function scheduleRandomLook() {
+    setTimeout(doRandomLook, 2500 + Math.random() * 4000);
+  }
+  scheduleRandomLook();
+
+  window.addEventListener('mousemove', e => calcTarget(e.clientX, e.clientY), { passive: true });
+  window.addEventListener('touchmove', e => {
+    const t = e.touches[0];
+    calcTarget(t.clientX, t.clientY);
+  }, { passive: true });
+  mob.addEventListener('click', e => { if (e.target === mob) mob.classList.remove('open'); });
+
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const was = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!was) item.classList.add('open');
+    });
+  });
+</script>
+</body>
+</html>

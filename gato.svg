@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+    <rect width="100%" height="100%" fill="#ffffff" />
+
+    <g id="cat">
+        <path d="M 200 600 
+                 L 200 280 
+                 Q 200 220 250 250 
+                 L 300 330 
+                 Q 320 360 360 360 
+                 L 440 360 
+                 Q 480 360 500 330 
+                 L 550 250 
+                 Q 600 220 600 280 
+                 L 600 600 Z" 
+              fill="#1c1c1c" />
+
+        <g id="left-eye-group">
+            <ellipse cx="310" cy="480" rx="60" ry="60" fill="#fcd000" />
+            <ellipse cx="310" cy="480" rx="35" ry="35" fill="#1c1c1c">
+                <animate attributeName="cx" values="310; 295; 295; 325; 325; 310" keyTimes="0; 0.1; 0.4; 0.6; 0.9; 1" dur="7s" begin="2.5s" repeatCount="indefinite" />
+                <animate attributeName="cy" values="480; 475; 475; 485; 485; 480" keyTimes="0; 0.1; 0.4; 0.6; 0.9; 1" dur="7s" begin="2.5s" repeatCount="indefinite" />
+                <animate attributeName="ry" values="35; 35; 0; 35" keyTimes="0; 0.95; 0.97; 1" dur="3s" begin="2.5s" repeatCount="indefinite" />
+            </ellipse>
+        </g>
+
+        <g id="right-eye-group">
+            <ellipse cx="490" cy="480" rx="60" ry="60" fill="#fcd000" />
+            <ellipse cx="490" cy="480" rx="35" ry="35" fill="#1c1c1c">
+                <animate attributeName="cx" values="490; 475; 475; 505; 505; 490" keyTimes="0; 0.1; 0.4; 0.6; 0.9; 1" dur="7s" begin="2.5s" repeatCount="indefinite" />
+                <animate attributeName="cy" values="480; 475; 475; 485; 485; 480" keyTimes="0; 0.1; 0.4; 0.6; 0.9; 1" dur="7s" begin="2.5s" repeatCount="indefinite" />
+                <animate attributeName="ry" values="35; 35; 0; 35" keyTimes="0; 0.95; 0.97; 1" dur="3s" begin="2.5s" repeatCount="indefinite" />
+            </ellipse>
+        </g>
+
+        <path d="M 385 515 
+                 C 385 500, 415 500, 415 515 
+                 C 415 535, 400 540, 400 540 
+                 C 400 540, 385 535, 385 515 Z" 
+              fill="#404040" />
+
+        <animateTransform attributeName="transform" type="translate" from="0 800" to="0 0" begin="0s" dur="2s" fill="freeze" />
+    </g>
+</svg>

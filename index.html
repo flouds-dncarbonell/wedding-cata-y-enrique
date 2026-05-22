@@ -7,18 +7,19 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Allison&family=Lavishly+Yours&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --ivory:      #FAF8F4;
-      --terracotta: oklch(0.56 0.11 38);
-      --terra-lt:   oklch(0.80 0.07 38);
-      --gold:       oklch(0.65 0.10 68);
-      --ink:        #28190E;
-      --ink-soft:   #5C4635;
-      --green:      #4D5A3E;
-      --border:     oklch(0.80 0.04 68 / .32);
+      --ivory:      #E4DFCC;
+      --olive:      oklch(0.48 0.09 132);
+      --olive-lt:   oklch(0.76 0.07 126);
+      --gold:       oklch(0.67 0.09 84);
+      --ink:        #1C2415;
+      --ink-soft:   #475235;
+      --green:      #546244;
+      --border:     oklch(0.70 0.06 122 / .34);
 
       --script:   'Lavishly Yours', cursive;
       --display:  'Allison', cursive;
@@ -29,12 +30,22 @@
     html { scroll-behavior: smooth; }
 
     body {
-      background: var(--ivory);
+      background-color: var(--ivory);
       color: var(--ink);
       font-family: var(--serif);
       font-size: 19px;
       line-height: 1.8;
       -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      opacity: 0.045; pointer-events: none; z-index: 0;
+      background-image: url("textura-gato-v2.jpg");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: bottom right;
     }
 
     body::after {
@@ -55,7 +66,7 @@
     }
     #nav.vis {
       opacity: 1; pointer-events: auto;
-      background: rgb(250 248 244 / .94);
+      background: rgb(228 223 204 / .94);
       backdrop-filter: blur(10px);
       box-shadow: 0 1px 0 var(--border);
     }
@@ -69,7 +80,7 @@
       text-transform: uppercase; color: var(--ink-soft); text-decoration: none;
       transition: color .2s;
     }
-    .nav-links a:hover { color: var(--terracotta); }
+    .nav-links a:hover { color: var(--olive); }
     .nav-toggle {
       background: none; border: none; cursor: pointer;
       font-family: var(--sans); font-size: .78rem;
@@ -92,7 +103,7 @@
       letter-spacing: .12em; text-transform: uppercase;
       color: var(--ink); text-decoration: none; transition: color .2s;
     }
-    #nav-mobile a:hover { color: var(--terracotta); }
+    #nav-mobile a:hover { color: var(--olive); }
     #nav-close {
       position: absolute; top: 22px; right: 36px;
       background: none; border: none; cursor: pointer;
@@ -133,7 +144,7 @@
 
     .hero-eyebrow {
       font-family: var(--sans); font-size: .74rem; letter-spacing: .28em;
-      text-transform: uppercase; color: var(--terracotta); margin-bottom: 1.4rem;
+      text-transform: uppercase; color: var(--olive); margin-bottom: 1.4rem;
     }
     .hero-names {
       font-family: var(--script); font-weight: 400;
@@ -141,7 +152,7 @@
       line-height: .9; color: var(--ink);
       display: flex; flex-direction: column; align-items: center;
     }
-    .hero-amp { font-size: .52em; color: var(--terracotta); display: block; margin: .18em 0; }
+    .hero-amp { font-size: .52em; color: var(--olive); display: block; margin: .18em 0; }
 
     .hero-rule {
       display: flex; align-items: center; gap: 12px;
@@ -168,7 +179,7 @@
 
     .hero-cta a {
       font-family: var(--sans); font-size: .74rem; letter-spacing: .22em;
-      text-transform: uppercase; color: var(--terracotta); text-decoration: none;
+      text-transform: uppercase; color: var(--olive); text-decoration: none;
       border-bottom: 1px solid currentColor; padding-bottom: 2px; transition: opacity .2s;
     }
     .hero-cta a:hover { opacity: .6; }
@@ -182,7 +193,7 @@
 
     .sec-eyebrow {
       font-family: var(--sans); font-size: .74rem; letter-spacing: .24em;
-      text-transform: uppercase; color: var(--terracotta); display: block; margin-bottom: .8rem;
+      text-transform: uppercase; color: var(--olive); display: block; margin-bottom: .8rem;
     }
     .sec-title {
       font-family: var(--display); font-size: clamp(3rem, 7vw, 5rem);
@@ -207,7 +218,7 @@
     }
     .invite-type {
       font-family: var(--sans); font-size: .72rem; letter-spacing: .22em;
-      text-transform: uppercase; color: var(--terracotta); display: block; margin-bottom: 1.2rem;
+      text-transform: uppercase; color: var(--olive); display: block; margin-bottom: 1.2rem;
     }
     .invite-name { font-family: var(--display); font-size: 1.9rem; font-weight: 400; color: var(--ink); line-height: 1.2; margin-bottom: 1.5rem; }
     .invite-rule { width: 48px; height: 1px; background: var(--border); margin: 1.4rem auto; }
@@ -217,15 +228,31 @@
 
     /* ── STORIA PHOTOS ── */
     .storia-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 2.5rem auto 0; max-width: 760px; }
-    .storia-photos img { width: 100%; height: auto; display: block; object-fit: cover; }
+    .storia-photos img { width: 100%; height: 200px; display: block; object-fit: cover; object-position: center top; }
     @media (min-width: 580px) {
       .storia-photos { grid-template-columns: 1fr 1fr; }
     }
 
     .gatos-box { display: flex; flex-direction: column; align-items: center; gap: 1rem; margin: 3rem auto 0; max-width: 400px; text-align: center; }
-    .gatos-box img { width: 100%; max-width: 220px; height: auto; }
+    .gatos-box img { width: 100%; max-width: 220px; aspect-ratio: 4/5; object-fit: cover; object-position: center top; display: block; }
     .gatos-box p { font-size: 1rem; color: var(--ink-soft); font-style: italic; }
     .gatos-box strong { font-style: normal; color: var(--ink); }
+
+    /* ── CAT CAROUSEL ── */
+    .cat-carousel { margin: 2.5rem auto 0; max-width: 760px; }
+    .cat-carousel-track {
+      display: flex; gap: 16px;
+      overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 4px;
+    }
+    .cat-carousel-track::-webkit-scrollbar { display: none; }
+    .cat-slide { flex: 0 0 clamp(200px, 44vw, 270px); scroll-snap-align: center; text-align: center; }
+    .cat-slide img { width: 100%; aspect-ratio: 3/4; object-fit: cover; object-position: center top; display: block; }
+    .cat-slide p { font-size: .86rem; font-style: italic; color: var(--ink-soft); margin-top: .5rem; }
+
+    /* ── PAW DIVIDER ── */
+    .paw-divider { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 36px 0; opacity: 0.45; color: #475235; }
+    .paw-divider i { line-height: 1; }
 
     /* ── GALLERY ── */
     #fotos { padding: 80px 24px; max-width: 1100px; margin: 0 auto; }
@@ -253,7 +280,7 @@
       font-family: var(--serif); font-size: 1.02rem; font-weight: 500;
       color: var(--ink); line-height: 1.45;
     }
-    .faq-toggle { font-family: var(--sans); font-size: 1.1rem; color: var(--terracotta); flex-shrink: 0; transition: transform .3s; }
+    .faq-toggle { font-family: var(--sans); font-size: 1.1rem; color: var(--olive); flex-shrink: 0; transition: transform .3s; }
     .faq-item.open .faq-toggle { transform: rotate(45deg); }
     .faq-a { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .35s cubic-bezier(.16,1,.3,1); }
     .faq-item.open .faq-a { grid-template-rows: 1fr; }
@@ -266,12 +293,12 @@
     .log-item-title { font-family: var(--display); font-size: 1.6rem; font-weight: 400; color: var(--ink); margin-bottom: .7rem; line-height: 1.2; }
     .log-item ul { list-style: none; display: flex; flex-direction: column; gap: .4rem; }
     .log-item li { font-size: 1rem; color: var(--ink-soft); padding-left: 1rem; position: relative; }
-    .log-item li::before { content: '—'; position: absolute; left: 0; color: var(--terracotta); }
+    .log-item li::before { content: '—'; position: absolute; left: 0; color: var(--olive); }
     .log-item li strong { color: var(--ink); }
 
     /* ── CARNAVAL ── */
     .carnaval-block {
-      background: var(--terracotta); color: var(--ivory);
+      background: oklch(0.38 0.09 132); color: var(--ivory);
       padding: 52px 44px; margin: 2.5rem auto 0; max-width: 520px; text-align: center;
     }
     .carnaval-title { font-family: var(--display); font-size: 2.6rem; font-weight: 400; margin-bottom: 1rem; }
@@ -281,14 +308,14 @@
     /* ── LUGARES ── */
     .lugares-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2.5rem auto 0; max-width: 520px; text-align: left; }
     @media (max-width: 460px) { .lugares-grid { grid-template-columns: 1fr; } }
-    .lugar-dist { font-family: var(--sans); font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: var(--terracotta); margin-bottom: .2rem; }
+    .lugar-dist { font-family: var(--sans); font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: var(--olive); margin-bottom: .2rem; }
     .lugar strong { font-family: var(--serif); font-size: 1rem; color: var(--ink); }
     .lugar p { font-size: .96rem; color: var(--ink-soft); margin-top: .2rem; }
 
     /* ── REGALOS ── */
     .gift-grid { display: grid; gap: 2rem; margin: 2.5rem auto 0; max-width: 400px; text-align: left; }
     @media (min-width: 460px) { .gift-grid { grid-template-columns: 1fr 1fr; } }
-    .gift-block-title { font-family: var(--sans); font-size: .74rem; letter-spacing: .20em; text-transform: uppercase; color: var(--terracotta); margin-bottom: .75rem; }
+    .gift-block-title { font-family: var(--sans); font-size: .74rem; letter-spacing: .20em; text-transform: uppercase; color: var(--olive); margin-bottom: .75rem; }
     .gift-block ul { list-style: none; display: flex; flex-direction: column; gap: .35rem; }
     .gift-block li { font-size: 1rem; color: var(--ink-soft); }
     .gift-block li strong { color: var(--ink); }
@@ -298,27 +325,63 @@
     #rsvp { background: var(--ink); padding: 100px 24px; text-align: center; }
     .rsvp-inner { max-width: 480px; margin: 0 auto; }
     .rsvp-title { font-family: var(--display); font-size: clamp(3.2rem, 8vw, 5.5rem); font-weight: 400; color: var(--ivory); line-height: 1.05; margin-bottom: 1.5rem; }
-    .rsvp-subtitle { font-family: var(--sans); font-size: .76rem; letter-spacing: .18em; text-transform: uppercase; color: oklch(.72 .03 68 / .5); margin-bottom: 2.5rem; }
-    .rsvp-subtitle strong { color: var(--terra-lt); }
+    .rsvp-subtitle { font-family: var(--sans); font-size: .76rem; letter-spacing: .18em; text-transform: uppercase; color: oklch(.74 .05 122 / .55); margin-bottom: 2.5rem; }
+    .rsvp-subtitle strong { color: var(--olive-lt); }
 
     .btn-ghost {
       display: inline-block; padding: 15px 38px;
-      border: 1px solid oklch(.72 .03 68 / .3);
+      border: 1px solid oklch(.70 .06 122 / .35);
       font-family: var(--sans); font-size: .76rem; letter-spacing: .20em;
       text-transform: uppercase; color: var(--ivory); text-decoration: none;
       transition: border-color .2s, background .2s;
     }
-    .btn-ghost:hover { border-color: oklch(.72 .03 68 / .6); background: oklch(.72 .03 68 / .1); }
+    .btn-ghost:hover { border-color: oklch(.70 .06 122 / .65); background: oklch(.70 .06 122 / .12); }
 
     .rsvp-contacts { display: flex; gap: 2.5rem; justify-content: center; flex-wrap: wrap; margin-top: 3rem; }
     .rsvp-contact-name { font-family: var(--sans); font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); margin-bottom: .3rem; }
-    .rsvp-contact a { font-size: 1rem; color: oklch(.78 .03 68 / .6); text-decoration: none; transition: color .2s; }
+    .rsvp-contact a { font-size: 1rem; color: oklch(.78 .05 122 / .65); text-decoration: none; transition: color .2s; }
     .rsvp-contact a:hover { color: var(--ivory); }
 
     /* ── FOOTER ── */
     footer { text-align: center; padding: 40px 24px; background: var(--ivory); }
     footer .monogram { font-family: var(--display); font-size: 2.4rem; font-weight: 400; color: var(--ink); display: block; margin-bottom: .75rem; }
     footer p { font-family: var(--sans); font-size: .74rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+
+    /* ── LIGHTBOX ── */
+    #lightbox {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(28,36,21,.93);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity .3s;
+    }
+    #lightbox.open { opacity: 1; pointer-events: auto; }
+    #lightbox img {
+      max-width: min(90vw, 960px); max-height: 88svh;
+      object-fit: contain; display: block;
+      transform: scale(.94); transition: transform .35s cubic-bezier(.16,1,.3,1);
+      cursor: e-resize;
+    }
+    #lightbox.open img { transform: scale(1); }
+    #lightbox img.side-left { cursor: w-resize; }
+    .lb-close {
+      position: absolute; top: 20px; right: 24px;
+      background: none; border: none; cursor: pointer;
+      font-family: var(--sans); font-size: .72rem; letter-spacing: .18em;
+      text-transform: uppercase; color: oklch(.80 .04 122 / .65);
+      transition: color .2s;
+    }
+    .lb-close:hover { color: var(--ivory); }
+    .lb-arrow { display: none; }
+    .lb-counter {
+      position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+      font-family: var(--sans); font-size: .70rem; letter-spacing: .16em;
+      text-transform: uppercase; color: oklch(.70 .05 122 / .50);
+    }
+
+    .g-item { cursor: zoom-in; }
+    .cat-lb { cursor: zoom-in; transition: opacity .25s; }
+    .cat-lb:hover { opacity: .82; }
 
     /* ── REVEAL ── */
     .r { opacity: 0; transform: translateY(16px); transition: opacity .85s cubic-bezier(.16,1,.3,1), transform .85s cubic-bezier(.16,1,.3,1); }
@@ -336,12 +399,12 @@
       border-radius: 50%;
       overflow: hidden;
       cursor: pointer; padding: 0;
-      box-shadow: 0 4px 22px oklch(0.56 0.11 38 / .16);
+      box-shadow: 0 4px 22px oklch(0.48 0.09 132 / .18);
       animation: cat-float 3.4s ease-in-out infinite;
       transition: box-shadow .3s;
     }
     #cat-menu:hover {
-      box-shadow: 0 6px 30px oklch(0.56 0.11 38 / .28);
+      box-shadow: 0 6px 30px oklch(0.48 0.09 132 / .30);
     }
     #cat-menu:active { transform: scale(0.90) !important; }
     #cat-menu svg { width: 100%; height: 100%; display: block; }
@@ -406,12 +469,21 @@
   </svg>
 </button>
 
+<!-- ── LIGHTBOX ── -->
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Foto ampliada">
+  <button class="lb-close" aria-label="Cerrar">Cerrar ✕</button>
+  <button class="lb-arrow lb-prev" aria-label="Anterior">&#8592;</button>
+  <img src="" alt="">
+  <button class="lb-arrow lb-next" aria-label="Siguiente">&#8594;</button>
+  <span class="lb-counter"></span>
+</div>
+
 <main>
 
 <!-- ═══ HERO ═══ -->
 <section id="inicio">
   <div class="hero-photo">
-    <img src="ec%20(5).jpeg" alt="Catalina y Enrique" loading="eager">
+    <img src="casal_ensaio_praia_dunas_hora_dourada.jpeg" alt="Catalina y Enrique" loading="eager">
   </div>
   <div class="hero-panel">
     <!-- botanical sprig -->
@@ -477,28 +549,42 @@
     </div>
 
     <div class="storia-photos r">
-      <img src="ec%20(2).jpeg" alt="Catalina y Enrique">
-      <img src="ec%20(8).jpeg" alt="Catalina y Enrique">
-      <img src="ec%20(11).jpeg" alt="Catalina y Enrique">
-      <img src="ec%20(14).jpeg" alt="Catalina y Enrique">
+      <img src="casal_natal_com_gatos_arvore.jpeg" alt="Catalina y Enrique" class="cat-lb">
+      <img src="casal_abraco_deck_lago_montanhas_colombia.jpeg" alt="Catalina y Enrique" class="cat-lb">
+      <img src="casal_praca_noite_villa_de_leyva.jpeg" alt="Catalina y Enrique" class="cat-lb">
+      <img src="casal_rooftop_bar_bandeira_colombia_cartagena.jpeg" alt="Catalina y Enrique" class="cat-lb">
     </div>
 
     <div class="gatos-box r">
-      <img src="gato%20(1).jpeg" alt="Natilla y Buñuelo">
+      <img src="ilustracao_gatos_pilotos_cockpit_aviacao.jpeg" alt="Natilla y Buñuelo" class="cat-lb">
       <p><strong>Natilla</strong> (la jefa) y <strong>Buñuelo</strong> (el co-piloto) llevan años coordinando la logística del hogar. Para esta boda, ya tienen su plan de vuelo listo. Nosotros solo seguimos sus instrucciones.</p>
     </div>
+
+    <div class="cat-carousel r">
+      <div class="cat-carousel-track">
+        <div class="cat-slide">
+          <img src="ilustracao_gatos_jeep_colombia_aventura.jpeg" alt="Natilla" class="cat-lb">
+          <p>Natilla supervisando cada detalle</p>
+        </div>
+        <div class="cat-slide">
+          <img src="ilustracao_gatos_la_cocha_narino_lago.jpeg" alt="Natilla y Buñuelo" class="cat-lb">
+          <p>Los dos, revisando la lista de invitados</p>
+        </div>
+        <div class="cat-slide">
+          <img src="ilustracao_gatos_hotel_pasto_galeras_bienvenidos.jpeg" alt="Buñuelo" class="cat-lb">
+          <p>Buñuelo — siempre atento</p>
+        </div>
+      </div>
+    </div>
+    <p class="sec-body r" style="margin-top:1.4rem;font-style:italic">Los invitados de honor ya tienen sus trajes listos.</p>
   </div>
 </section>
 
-<!-- divider -->
-<div class="div-wrap" aria-hidden="true">
-  <svg width="160" height="20" viewBox="0 0 160 20" fill="none">
-    <line x1="0" y1="10" x2="68" y2="10" stroke="#4D5A3E" stroke-width="0.5" opacity="0.38"/>
-    <circle cx="80" cy="10" r="2.5" fill="#4D5A3E" opacity="0.48"/>
-    <circle cx="73" cy="10" r="1.5" fill="#4D5A3E" opacity="0.28"/>
-    <circle cx="87" cy="10" r="1.5" fill="#4D5A3E" opacity="0.28"/>
-    <line x1="92" y1="10" x2="160" y2="10" stroke="#4D5A3E" stroke-width="0.5" opacity="0.38"/>
-  </svg>
+<!-- paw divider -->
+<div class="paw-divider" aria-hidden="true">
+  <i class="ph-fill ph-paw-print" style="font-size:20px"></i>
+  <i class="ph-fill ph-paw-print" style="font-size:26px"></i>
+  <i class="ph-fill ph-paw-print" style="font-size:20px"></i>
 </div>
 
 <!-- ═══ FOTOS ═══ -->
@@ -509,23 +595,23 @@
   </div>
   <div style="padding:0 24px;max-width:1100px;margin:0 auto">
     <div class="gallery r">
-      <div class="g-item"><img src="ec%20(3).jpeg" alt=""></div>
-      <div class="g-item"><img src="ec%20(6).jpeg" alt=""></div>
-      <div class="g-item"><img src="ec%20(15).jpeg" alt=""></div>
-      <div class="g-item"><img src="ec%20(16).jpeg" alt=""></div>
-      <div class="g-item"><img src="ec%20(9).jpeg" alt=""></div>
-      <div class="g-item"><img src="ec%20(17).jpeg" alt=""></div>
-      <div class="g-item"><img src="ec%20(1).jpeg" alt=""></div>
-      <div class="g-item"><img src="ec%20(13).jpeg" alt=""></div>
-      <div class="g-item"><img src="ec%20(18).jpeg" alt=""></div>
-      <div class="g-item"><img src="ec%20(4).jpeg" alt=""></div>
-      <div class="g-item"><img src="ec%20(12).jpeg" alt=""></div>
-      <div class="g-item"><img src="ec%20(20).jpeg" alt=""></div>
-      <div class="g-item"><img src="ec%20(7).jpeg" alt=""></div>
-      <div class="g-item"><img src="ec%20(19).jpeg" alt=""></div>
-      <div class="g-item"><img src="ec%20(21).jpeg" alt=""></div>
-      <div class="g-item"><img src="ec%20(22).jpeg" alt=""></div>
-      <div class="g-item"><img src="ec%20(23).jpeg" alt=""></div>
+      <div class="g-item"><img src="casal_praia_silhueta_por_do_sol_roupa_branca.jpeg" alt=""></div>
+      <div class="g-item"><img src="casal_museo_patio_colunas_sarasota.jpeg" alt=""></div>
+      <div class="g-item"><img src="casal_plataforma_vidro_skyline_nova_york.jpeg" alt=""></div>
+      <div class="g-item"><img src="casal_neve_segurando_gatos.jpeg" alt=""></div>
+      <div class="g-item"><img src="casal_cachoeira_taughannock_nova_york.jpeg" alt=""></div>
+      <div class="g-item"><img src="casal_beijo_lago_congelado_inverno.jpeg" alt=""></div>
+      <div class="g-item"><img src="casal_praia_por_do_sol_beijo_silhueta.jpeg" alt=""></div>
+      <div class="g-item"><img src="casal_forte_muralha_vista_mar_puerto_rico.jpeg" alt=""></div>
+      <div class="g-item"><img src="casal_deck_lago_outono_por_do_sol.jpeg" alt=""></div>
+      <div class="g-item"><img src="casal_parque_avenida_carvalhos_louisiana.jpeg" alt=""></div>
+      <div class="g-item"><img src="casal_deck_mangue_flamingos_cancun.jpeg" alt=""></div>
+      <div class="g-item"><img src="casal_abraco_campo_girassois.jpeg" alt=""></div>
+      <div class="g-item"><img src="casal_selfie_carro_teto_solar.jpeg" alt=""></div>
+      <div class="g-item"><img src="casal_esqui_topo_montanha.jpeg" alt=""></div>
+      <div class="g-item"><img src="casal_natal_gatos_sala_tv.jpeg" alt=""></div>
+      <div class="g-item"><img src="casal_selfie_outono_gato_fantasia_halloween.jpeg" alt=""></div>
+      <div class="g-item"><img src="casal_selfie_praia_mar_onibus_aquatico.jpeg" alt=""></div>
     </div>
   </div>
 </section>
@@ -574,6 +660,10 @@
       </div>
     </div>
     <p class="prog-note r">Entorno campestre con zonas verdes — por favor lleguen puntuales a la ceremonia.</p>
+    <div class="r" style="margin-top:2rem;text-align:center">
+      <img src="ilustracao_gatos_presentes_pasto_regalos_ahorros.jpeg" alt="Gatito organizador" class="cat-lb" style="width:clamp(160px,40vw,240px);aspect-ratio:3/4;object-fit:cover;object-position:center top;display:block;margin:0 auto .5rem">
+      <p style="font-size:.88rem;font-style:italic;color:var(--ink-soft)">El coordinador oficial del día.</p>
+    </div>
   </div>
 </section>
 
@@ -638,10 +728,17 @@
     <span class="sec-eyebrow r">¿Tienen dudas?</span>
     <h2 class="sec-title r">Preguntas frecuentes</h2>
 
-    <div class="r" style="text-align:center;margin-bottom:1.5rem">
-      <img src="gato%20(3).jpeg" alt="Natilla y Buñuelo" style="width:100%;max-width:240px;height:auto;display:block;margin:0 auto .7rem">
-      <p style="font-size:.94rem;font-style:italic;color:var(--ink-soft)">Natilla y Buñuelo también tenían muchas dudas.</p>
+    <div class="r" style="text-align:center;margin-bottom:2rem;display:flex;gap:20px;justify-content:center;align-items:flex-end;flex-wrap:wrap">
+      <div>
+        <img src="ilustracao_gatos_sofa_confusos_interrogacao.jpeg" alt="Natilla" class="cat-lb" style="width:clamp(160px,38vw,240px);height:clamp(200px,48vw,300px);object-fit:cover;object-position:center top;display:block;margin:0 auto .5rem">
+        <p style="font-size:.86rem;font-style:italic;color:var(--ink-soft)">Natilla</p>
+      </div>
+      <div>
+        <img src="ilustracao_dress_code_casamento_gatos.jpeg" alt="Buñuelo" class="cat-lb" style="width:clamp(160px,38vw,240px);height:clamp(200px,48vw,300px);object-fit:cover;object-position:center top;display:block;margin:0 auto .5rem">
+        <p style="font-size:.86rem;font-style:italic;color:var(--ink-soft)">Buñuelo</p>
+      </div>
     </div>
+    <p class="sec-body r" style="margin-bottom:1.5rem;font-style:italic">Ellos también tenían muchas dudas.</p>
 
     <div class="faq-list r">
       <div class="faq-item">
@@ -703,7 +800,7 @@
       </div>
     </div>
 
-    <img src="gato%20(5).jpeg" alt="Bienvenidos a Pasto" style="width:100%;max-width:420px;height:auto;display:block;margin:2.5rem auto;" class="r">
+    <img src="ilustracao_gatos_hotel_pasto_galeras_welcome.jpeg" alt="Bienvenidos a Pasto" style="width:100%;max-width:320px;aspect-ratio:3/4;object-fit:cover;object-position:center top;display:block;margin:2.5rem auto;" class="r cat-lb">
 
     <h3 class="sec-title r" style="font-size:clamp(2.2rem,5vw,3.5rem);margin-bottom:1.5rem">Hoteles recomendados</h3>
     <div class="log-grid r">
@@ -771,10 +868,10 @@
       <span class="carnaval-dates">Del 2 al 7 de Enero · Pasto, Nariño</span>
     </div>
 
-    <img src="ec%20(10).jpeg" alt="Santuario de Las Lajas" style="width:100%;max-width:640px;height:auto;display:block;margin:2.5rem auto;" class="r">
+    <img src="casal_igreja_iluminada_noite_colombia.jpeg" alt="Santuario de Las Lajas" style="width:100%;max-width:640px;height:auto;display:block;margin:2.5rem auto;" class="r">
 
     <div class="r" style="text-align:center;margin-bottom:2rem">
-      <img src="gato%20(7).jpeg" alt="Natilla y Buñuelo" style="width:100%;max-width:260px;height:auto;display:block;margin:0 auto .6rem">
+      <img src="ilustracao_gatos_aviao_aventura_las_lajas.jpeg" alt="Natilla y Buñuelo" class="cat-lb" style="width:clamp(200px,50vw,320px);aspect-ratio:3/4;object-fit:cover;object-position:center top;display:block;margin:0 auto .6rem">
       <p style="font-size:.94rem;font-style:italic;color:var(--ink-soft)">Natilla y Buñuelo ya reservaron su vuelo a Las Lajas.</p>
     </div>
 
@@ -891,7 +988,7 @@
     const wed = new Date('2027-01-09T13:00:00-05:00');
     const diff = wed - Date.now();
     if (diff <= 0) {
-      document.getElementById('countdown').innerHTML = '<p style="font-family:var(--script);font-size:1.8rem;color:var(--terracotta)">¡Hoy es el día!</p>';
+      document.getElementById('countdown').innerHTML = '<p style="font-family:var(--script);font-size:1.8rem;color:var(--olive)">¡Hoy es el día!</p>';
       return;
     }
     document.getElementById('cd-d').textContent = Math.floor(diff / 86400000);
@@ -997,6 +1094,77 @@
     calcTarget(t.clientX, t.clientY);
   }, { passive: true });
   mob.addEventListener('click', e => { if (e.target === mob) mob.classList.remove('open'); });
+
+  // ── LIGHTBOX ──
+  const lb        = document.getElementById('lightbox');
+  const lbImg     = lb.querySelector('img');
+  const lbCounter = lb.querySelector('.lb-counter');
+  const galleryImgs = Array.from(document.querySelectorAll('.gallery .g-item img'));
+  const catImgs     = Array.from(document.querySelectorAll('.cat-lb'));
+  let lbPool  = [];
+  let lbIndex = 0;
+
+  function lbOpen(pool, i) {
+    lbPool  = pool;
+    lbIndex = i;
+    lbImg.src = pool[i].src;
+    lbImg.alt = pool[i].alt;
+    lbCounter.textContent = (i + 1) + ' / ' + pool.length;
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function lbClose() {
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function lbNav(dir) {
+    lbOpen(lbPool, (lbIndex + dir + lbPool.length) % lbPool.length);
+  }
+
+  galleryImgs.forEach((img, i) => img.closest('.g-item').addEventListener('click', () => lbOpen(galleryImgs, i)));
+  catImgs.forEach((img, i) => img.addEventListener('click', () => lbOpen(catImgs, i)));
+  lb.querySelector('.lb-close').addEventListener('click', lbClose);
+
+  // cursor por lado
+  lbImg.addEventListener('mousemove', e => {
+    lbImg.classList.toggle('side-left', e.offsetX < lbImg.offsetWidth / 2);
+  });
+
+  // drag / swipe
+  let dragStartX = null;
+  let dragged = false;
+  const DRAG_THRESHOLD = 40;
+
+  function onDragStart(x) { dragStartX = x; dragged = false; }
+  function onDragEnd(x) {
+    if (dragStartX === null) return;
+    const diff = x - dragStartX;
+    if (Math.abs(diff) > DRAG_THRESHOLD) { dragged = true; lbNav(diff < 0 ? 1 : -1); }
+    dragStartX = null;
+  }
+
+  // mouse drag
+  lbImg.addEventListener('mousedown', e => { e.preventDefault(); onDragStart(e.clientX); });
+  window.addEventListener('mouseup', e => { onDragEnd(e.clientX); });
+
+  // touch swipe
+  lbImg.addEventListener('touchstart', e => onDragStart(e.touches[0].clientX), { passive: true });
+  lbImg.addEventListener('touchend', e => onDragEnd(e.changedTouches[0].clientX), { passive: true });
+
+  // clique só se não arrastou
+  lbImg.addEventListener('click', e => {
+    if (dragged) { dragged = false; return; }
+    e.stopPropagation();
+    lbNav(e.offsetX < lbImg.offsetWidth / 2 ? -1 : 1);
+  });
+
+  lb.addEventListener('click', e => { if (e.target === lb) lbClose(); });
+  document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') lbClose();
+    if (e.key === 'ArrowLeft') lbNav(-1);
+    if (e.key === 'ArrowRight') lbNav(1);
+  });
 
   document.querySelectorAll('.faq-q').forEach(btn => {
     btn.addEventListener('click', () => {

@@ -554,6 +554,48 @@
     .rsvp-contact a { font-size: 1rem; color: oklch(.78 .05 122 / .65); text-decoration: none; transition: color .2s; }
     .rsvp-contact a:hover { color: var(--ivory); }
 
+    /* ── RSVP FORM ── */
+    .rsvp-form { display: flex; flex-direction: column; gap: 1.4rem; margin-top: 2.2rem; text-align: left; }
+    .rsvp-field { display: flex; flex-direction: column; gap: .45rem; }
+    .rsvp-label { font-family: var(--sans); font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: oklch(.74 .05 122 / .55); }
+    .rsvp-input, .rsvp-textarea {
+      background: oklch(.22 .05 132 / .55);
+      border: 1px solid oklch(.70 .06 122 / .22);
+      color: var(--ivory);
+      font-family: var(--serif); font-size: 1rem;
+      padding: 12px 16px;
+      outline: none;
+      transition: border-color .2s;
+      width: 100%;
+      -webkit-appearance: none;
+      border-radius: 0;
+    }
+    .rsvp-input:focus, .rsvp-textarea:focus { border-color: oklch(.70 .06 122 / .55); }
+    .rsvp-input::placeholder, .rsvp-textarea::placeholder { color: oklch(.70 .05 122 / .35); }
+    .rsvp-textarea { resize: vertical; min-height: 80px; }
+    .rsvp-radios { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+    .rsvp-radio-label {
+      display: flex; align-items: center; gap: .5rem;
+      font-family: var(--sans); font-size: .74rem; letter-spacing: .12em;
+      color: var(--ivory); cursor: pointer; text-transform: uppercase;
+    }
+    .rsvp-radio-label input { accent-color: var(--olive-lt); width: 16px; height: 16px; cursor: pointer; }
+    .rsvp-btn {
+      display: inline-block; padding: 15px 38px;
+      background: oklch(.70 .06 122 / .10);
+      border: 1px solid oklch(.70 .06 122 / .40);
+      font-family: var(--sans); font-size: .76rem; letter-spacing: .20em;
+      text-transform: uppercase; color: var(--ivory);
+      cursor: pointer; width: 100%; margin-top: .4rem;
+      transition: border-color .2s, background .2s, transform .2s;
+    }
+    .rsvp-btn:hover { border-color: oklch(.70 .06 122 / .7); background: oklch(.70 .06 122 / .20); }
+    .rsvp-btn:active { transform: scale(.97); }
+    .rsvp-btn:disabled { opacity: .45; cursor: default; transform: none; }
+    .rsvp-success-inner { text-align: center; padding: 2rem 0; }
+    .rsvp-success-inner p { color: var(--olive-lt); font-family: var(--serif); font-style: italic; font-size: 1.15rem; line-height: 1.7; }
+    .rsvp-error-msg { color: oklch(.78 .10 28); font-family: var(--sans); font-size: .74rem; letter-spacing: .06em; margin-top: .2rem; }
+
     /* ── FOOTER ── */
     footer { text-align: center; padding: 40px 24px; background: var(--ivory); }
     footer .monogram { font-family: var(--display); font-size: 2.4rem; font-weight: 400; color: var(--ink); display: block; margin-bottom: .75rem; }
@@ -1335,9 +1377,46 @@
     <h2 class="rsvp-title">¿Vendrás a celebrar?</h2>
     <p class="rsvp-subtitle">Confirmar antes del <strong>30 de junio de 2026</strong></p>
 
-    <a href="https://wa.me/19082974281?text=%C2%A1Hola%20Cata!%20Confirmo%20mi%20asistencia%20a%20su%20boda%20el%209%20de%20enero%20de%202027%20%F0%9F%8E%8A" class="btn-ghost">
-      Confirmar por WhatsApp
-    </a>
+    <form class="rsvp-form" id="rsvp-form" novalidate>
+      <div class="rsvp-field">
+        <label class="rsvp-label" for="rsvp-name">Nombre completo</label>
+        <input class="rsvp-input" id="rsvp-name" name="nombre" type="text" placeholder="Tu nombre completo" required>
+      </div>
+
+      <div class="rsvp-field">
+        <span class="rsvp-label">¿Asistirás?</span>
+        <div class="rsvp-radios">
+          <label class="rsvp-radio-label">
+            <input type="radio" name="asistencia" value="Sí"> Sí, asistiré
+          </label>
+          <label class="rsvp-radio-label">
+            <input type="radio" name="asistencia" value="No"> No podré ir
+          </label>
+        </div>
+      </div>
+
+      <div class="rsvp-field" id="rsvp-acomp-field" style="display:none">
+        <label class="rsvp-label" for="rsvp-acomp">Número de acompañantes (sin contarte a ti)</label>
+        <input class="rsvp-input" id="rsvp-acomp" name="acompanantes" type="number" min="0" max="10" value="0">
+      </div>
+
+      <div class="rsvp-field">
+        <label class="rsvp-label" for="rsvp-dieta">Restricciones alimentarias</label>
+        <input class="rsvp-input" id="rsvp-dieta" name="restricciones_alimentarias" type="text" placeholder="Ninguna, vegano, sin gluten…">
+      </div>
+
+      <div class="rsvp-field">
+        <label class="rsvp-label" for="rsvp-msg">Mensaje (opcional)</label>
+        <textarea class="rsvp-textarea" id="rsvp-msg" name="mensaje" placeholder="¡Nos morimos de ganas de verlos!"></textarea>
+      </div>
+
+      <p class="rsvp-error-msg" id="rsvp-error" style="display:none"></p>
+      <button type="submit" class="rsvp-btn" id="rsvp-submit">Confirmar asistencia</button>
+    </form>
+
+    <div id="rsvp-success-msg" style="display:none" class="rsvp-success-inner">
+      <p>¡Gracias! Tu confirmación fue recibida.<br>¡Nos vemos el 9 de enero! 🎊</p>
+    </div>
 
     <div class="rsvp-contacts">
       <div class="rsvp-contact">
@@ -1510,7 +1589,24 @@
     'Abrir menú': 'Open menu',
     'Cerrar ✕': 'Close ✕',
     'Idioma': 'Language',
-    '¡Hoy es el día!': 'Today is the day!'
+    '¡Hoy es el día!': 'Today is the day!',
+    'Nombre completo': 'Full name',
+    'Tu nombre completo': 'Your full name',
+    '¿Asistirás?': 'Will you attend?',
+    'Sí, asistiré': 'Yes, I will attend',
+    'No podré ir': 'No, I cannot make it',
+    'Número de acompañantes (sin contarte a ti)': 'Number of guests (not counting yourself)',
+    'Restricciones alimentarias': 'Dietary restrictions',
+    'Ninguna, vegano, sin gluten…': 'None, vegan, gluten-free…',
+    'Mensaje (opcional)': 'Message (optional)',
+    '¡Nos morimos de ganas de verlos!': "We can't wait to see you!",
+    'Confirmar asistencia': 'Confirm attendance',
+    'Enviando…': 'Sending…',
+    '¡Gracias! Tu confirmación fue recibida.': 'Thank you! Your RSVP was received.',
+    '¡Nos vemos el 9 de enero! 🎊': 'See you on January 9th! 🎊',
+    'Por favor ingresa tu nombre.': 'Please enter your name.',
+    'Por favor indica si asistirás.': 'Please indicate whether you will attend.',
+    'Hubo un problema al enviar. Intenta de nuevo o escríbenos por WhatsApp.': 'There was a problem sending. Please try again or message us on WhatsApp.'
   };
 
   const enToEs = Object.fromEntries(Object.entries(esToEn).map(([es, en]) => [en, es]));
@@ -1556,13 +1652,6 @@
     document.querySelectorAll('.lang-switch button').forEach(btn => {
       btn.setAttribute('aria-pressed', String(btn.dataset.lang === lang));
     });
-    const rsvp = document.querySelector('.btn-ghost');
-    if (rsvp) {
-      const message = lang === 'en'
-        ? 'Hi Cata! I confirm my attendance to your wedding on January 9, 2027 🎊'
-        : '¡Hola Cata! Confirmo mi asistencia a su boda el 9 de enero de 2027 🎊';
-      rsvp.href = `https://wa.me/19082974281?text=${encodeURIComponent(message)}`;
-    }
     localStorage.setItem('cata-lang', lang);
     currentLang = lang;
   }
@@ -1820,6 +1909,52 @@
     if (e.key === 'ArrowLeft') lbNav(-1);
     if (e.key === 'ArrowRight') lbNav(1);
   });
+
+  // ── RSVP FORM ──
+  const rsvpForm = document.getElementById('rsvp-form');
+  const rsvpSubmit = document.getElementById('rsvp-submit');
+  const rsvpError = document.getElementById('rsvp-error');
+  const rsvpSuccessMsg = document.getElementById('rsvp-success-msg');
+
+  document.querySelectorAll('input[name="asistencia"]').forEach(r => {
+    r.addEventListener('change', () => {
+      document.getElementById('rsvp-acomp-field').style.display = r.value === 'Sí' ? '' : 'none';
+    });
+  });
+
+  rsvpForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(rsvpForm));
+
+    if (!data.nombre?.trim()) { showRsvpError(currentLang === 'en' ? 'Please enter your name.' : 'Por favor ingresa tu nombre.'); return; }
+    if (!data.asistencia)     { showRsvpError(currentLang === 'en' ? 'Please indicate whether you will attend.' : 'Por favor indica si asistirás.'); return; }
+
+    rsvpSubmit.disabled = true;
+    rsvpSubmit.textContent = currentLang === 'en' ? 'Sending…' : 'Enviando…';
+    rsvpError.style.display = 'none';
+
+    try {
+      const res = await fetch('https://webhook.flouds.com.br/webhook/cata', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (!res.ok) throw new Error('status ' + res.status);
+      rsvpForm.style.display = 'none';
+      rsvpSuccessMsg.style.display = '';
+    } catch {
+      rsvpSubmit.disabled = false;
+      rsvpSubmit.textContent = currentLang === 'en' ? 'Confirm attendance' : 'Confirmar asistencia';
+      showRsvpError(currentLang === 'en'
+        ? 'There was a problem sending. Please try again or message us on WhatsApp.'
+        : 'Hubo un problema al enviar. Intenta de nuevo o escríbenos por WhatsApp.');
+    }
+  });
+
+  function showRsvpError(msg) {
+    rsvpError.textContent = msg;
+    rsvpError.style.display = '';
+  }
 
   document.querySelectorAll('.faq-q').forEach(btn => {
     btn.addEventListener('click', () => {

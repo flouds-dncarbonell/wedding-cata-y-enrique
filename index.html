@@ -332,15 +332,39 @@
       content: ''; position: absolute; inset: 7px;
       border: 1px solid var(--border); opacity: .5; pointer-events: none;
     }
+    .invite-photo {
+      width: calc(100% + 20px);
+      margin: -28px -10px 1.6rem;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      display: block;
+      filter: saturate(.94) contrast(.97);
+      position: relative;
+      z-index: 1;
+      cursor: zoom-in;
+    }
+    .invite-photo--reception { object-position: 50% 44%; }
     .invite-type {
       font-family: var(--sans); font-size: .72rem; letter-spacing: .22em;
       text-transform: uppercase; color: var(--olive); display: block; margin-bottom: 1.2rem;
+      position: relative; z-index: 1;
     }
-    .invite-name { font-family: var(--display); font-size: 1.9rem; font-weight: 400; color: var(--ink); line-height: 1.2; margin-bottom: 1.5rem; }
+    .invite-name { font-family: var(--display); font-size: 1.9rem; font-weight: 400; color: var(--ink); line-height: 1.2; margin-bottom: 1.5rem; position: relative; z-index: 1; }
     .invite-rule { width: 48px; height: 1px; background: var(--border); margin: 1.4rem auto; }
-    .invite-line { font-family: var(--serif); font-size: 1rem; color: var(--ink-soft); font-style: italic; margin-bottom: .35rem; }
+    .invite-line { font-family: var(--serif); font-size: 1rem; color: var(--ink-soft); font-style: italic; margin-bottom: .35rem; position: relative; z-index: 1; }
     .invite-line strong { font-style: normal; color: var(--ink); font-weight: 500; }
     .prog-note { margin: 1.8rem auto 0; max-width: 50ch; font-size: .96rem; font-style: italic; color: var(--ink-soft); }
+    .venue-mood {
+      width: min(100%, 620px);
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      object-position: 50% 48%;
+      display: block;
+      margin: 2rem auto .65rem;
+      border: 1px solid var(--border);
+      filter: saturate(.95) contrast(.97);
+      cursor: zoom-in;
+    }
     @media (max-width: 579px) {
       .prog-wrap {
         gap: 18px;
@@ -353,6 +377,10 @@
         flex-direction: column;
         justify-content: center;
         scroll-snap-align: center;
+      }
+      .invite-photo {
+        width: calc(100% + 12px);
+        margin: -22px -6px 1.5rem;
       }
       .invite-name { font-size: 2.15rem; }
     }
@@ -941,6 +969,7 @@
         <p class="invite-line">Calle 15 #15, Pasto, Nariño</p>
       </div>
       <div class="invite-card r d2">
+        <img src="img (1).jpeg" alt="Centro Sinergia" class="invite-photo invite-photo--reception cat-lb" loading="lazy">
         <span class="invite-type">Recepción</span>
         <h3 class="invite-name">Centro Sinergia</h3>
         <div class="invite-rule"></div>
@@ -951,10 +980,8 @@
       </div>
     </div>
     <p class="prog-note r">Entorno campestre con zonas verdes — por favor lleguen puntuales a la ceremonia.</p>
-    <div class="r" style="margin-top:2rem;text-align:center">
-      <img src="ilustracao_gatos_presentes_pasto_regalos_ahorros.jpeg" alt="Gatito organizador" class="cat-lb" style="width:clamp(160px,40vw,240px);aspect-ratio:3/4;object-fit:cover;object-position:center top;display:block;margin:0 auto .5rem">
-      <p style="font-size:.88rem;font-style:italic;color:var(--ink-soft)">El coordinador oficial del día.</p>
-    </div>
+    <img src="img (2).jpeg" alt="Jardines del Centro Sinergia" class="venue-mood cat-lb r" loading="lazy">
+    <p class="r" style="font-size:.88rem;font-style:italic;color:var(--ink-soft)">Un rincón del entorno campestre donde celebraremos.</p>
   </div>
 </section>
 
@@ -1196,45 +1223,17 @@
       <div class="lugar">
         <img
           src="img (3).jpeg"
-          alt="Laguna de La Cocha"
-          data-local-position="3-grid-la-cocha"
+          alt="Sandoná, Nariño"
+          data-local-position="3-grid-sandona"
           class="cat-lb"
           loading="lazy">
         <div class="lugar-copy">
-          <p class="lugar-dist">A 25 km</p>
-          <strong>Laguna de La Cocha</strong>
-          <p>Lago alpino rodeado de casitas coloridas — paisaje de cuento.</p>
-        </div>
-      </div>
-      <div class="lugar">
-        <img
-          src="img (1).jpeg"
-          alt="Volcán Galeras"
-          data-local-position="4-grid-galeras"
-          class="cat-lb"
-          loading="lazy">
-        <div class="lugar-copy">
-          <p class="lugar-dist">A 15 km</p>
-          <strong>Volcán Galeras</strong>
-          <p>El guardián de Pasto. Vistas increíbles desde el páramo.</p>
-        </div>
-      </div>
-      <div class="lugar">
-        <img
-          src="img (2).jpeg"
-          alt="Cementerio de Tulcán"
-          data-local-position="5-grid-tulcan"
-          class="cat-lb"
-          loading="lazy">
-        <div class="lugar-copy">
-          <p class="lugar-dist">A 100 km</p>
-          <strong>Tulcán, Ecuador</strong>
-          <p>Cementerio botánico con esculturas en ciprés. ¡No olvides el pasaporte!</p>
+          <p class="lugar-dist">Cerca de Pasto</p>
+          <strong>Sandoná</strong>
+          <p>Pueblo tradicional de Nariño, conocido por su iglesia, sus paisajes y artesanías.</p>
         </div>
       </div>
     </div>
-
-    <p class="photo-credit r">Fotos de referencia de Pasto, Nariño y alrededores. Sandoná y Centro Sinergia quedan pendientes de fotos autorizadas por sus propietarios.</p>
 
     <p class="sec-body r" style="margin-top:2.5rem">Enero en Pasto es temporada seca — días despejados, 16°C–19°C durante el día, y fresco de noche. ¡El clima perfecto para celebrar!</p>
   </div>
@@ -1367,6 +1366,8 @@
     '3:00 PM – 1:00 AM': '3:00 PM – 1:00 AM',
     'Vía Chapalito, Pasto, Nariño': 'Via Chapalito, Pasto, Nariño',
     'Entorno campestre con zonas verdes — por favor lleguen puntuales a la ceremonia.': 'Countryside setting with green areas — please arrive on time for the ceremony.',
+    'Jardines del Centro Sinergia': 'Centro Sinergia gardens',
+    'Un rincón del entorno campestre donde celebraremos.': 'A corner of the countryside setting where we will celebrate.',
     'Gatito organizador': 'Kitten organizer',
     'El coordinador oficial del día.': 'The official coordinator of the day.',
     'Cómo venir vestido': 'What to wear',
@@ -1433,6 +1434,10 @@
     'Lugares por conocer': 'Places to visit',
     'A 90 km': '90 km away',
     'La catedral gótica más bella del mundo, construida sobre un cañón.': 'The most beautiful Gothic cathedral in the world, built over a canyon.',
+    'Sandoná, Nariño': 'Sandona, Narino',
+    'Cerca de Pasto': 'Near Pasto',
+    'Sandoná': 'Sandona',
+    'Pueblo tradicional de Nariño, conocido por su iglesia, sus paisajes y artesanías.': 'A traditional Narino town known for its church, landscapes, and crafts.',
     'A 25 km': '25 km away',
     'Laguna de La Cocha': 'La Cocha Lagoon',
     'Lago alpino rodeado de casitas coloridas — paisaje de cuento.': 'An alpine lake surrounded by colorful little houses — a storybook landscape.',
@@ -1443,7 +1448,6 @@
     'Tulcán, Ecuador': 'Tulcan, Ecuador',
     'Cementerio de Tulcán': 'Tulcan Cemetery',
     'Cementerio botánico con esculturas en ciprés. ¡No olvides el pasaporte!': "A botanical cemetery with cypress sculptures. Don't forget your passport!",
-    'Fotos de referencia: Wikimedia Commons. Sandoná y Centro Sinergia quedan pendientes de fotos autorizadas por sus propietarios.': 'Reference photos: Wikimedia Commons. Sandona and Centro Sinergia are pending owner-authorized photos.',
     'Enero en Pasto es temporada seca — días despejados, 16°C–19°C durante el día, y fresco de noche. ¡El clima perfecto para celebrar!': 'January in Pasto is dry season — clear days, 16°C–19°C during the day, and cool nights. Perfect weather to celebrate!',
     'Detalles para nuestro futuro': 'Details for our future',
     'El mejor regalo eres tú': 'The best gift is you',

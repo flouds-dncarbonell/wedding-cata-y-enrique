@@ -87,6 +87,22 @@
       letter-spacing: .12em; text-transform: uppercase;
       color: var(--ink); padding: 4px;
     }
+    .lang-switch {
+      display: inline-flex; align-items: center; gap: 2px;
+      border: 1px solid var(--border);
+      background: rgb(228 223 204 / .68);
+      padding: 3px;
+    }
+    .lang-switch button {
+      min-width: 34px; height: 28px; border: 0; background: transparent;
+      font-family: var(--sans); font-size: .68rem; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--ink-soft); cursor: pointer;
+      transition: background .2s, color .2s;
+    }
+    .lang-switch button[aria-pressed="true"] {
+      background: var(--ink); color: var(--ivory);
+    }
+    .nav-actions { display: flex; align-items: center; gap: 1rem; }
     @media (min-width: 900px) {
       .nav-links { display: flex; }
       .nav-toggle { display: none; }
@@ -170,6 +186,12 @@
     .hero-place {
       font-family: var(--serif); font-style: italic; font-size: 1rem;
       color: var(--ink-soft); margin-top: .3rem;
+    }
+    .hero-lang {
+      position: absolute; top: 34px; right: 34px; z-index: 1;
+    }
+    @media (max-width: 767px) {
+      .hero-lang { top: 18px; right: 18px; }
     }
 
     .hero-countdown { display: flex; gap: 2rem; margin: 2rem 0; align-items: baseline; }
@@ -292,22 +314,68 @@
     .log-item li { font-size: 1rem; color: var(--ink-soft); padding-left: 1rem; position: relative; }
     .log-item li::before { content: '—'; position: absolute; left: 0; color: var(--olive); }
     .log-item li strong { color: var(--ink); }
+    .log-item a { color: var(--olive); text-decoration: none; border-bottom: 1px solid oklch(0.48 0.09 132 / .35); }
+    .log-item a:hover { border-bottom-color: var(--olive); }
 
     /* ── CARNAVAL ── */
     .carnaval-block {
       background: oklch(0.38 0.09 132); color: var(--ivory);
       padding: 52px 44px; margin: 2.5rem auto 0; max-width: 520px; text-align: center;
     }
+    .carnaval-photo {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      display: block;
+      margin: 2rem auto 0;
+      border: 1px solid oklch(.86 .04 122 / .18);
+      cursor: zoom-in;
+    }
     .carnaval-title { font-family: var(--display); font-size: 2.6rem; font-weight: 400; margin-bottom: 1rem; }
     .carnaval-body { font-size: 1.02rem; line-height: 1.75; opacity: .93; }
     .carnaval-dates { display: block; margin-top: 1.5rem; font-family: var(--sans); font-size: .74rem; letter-spacing: .20em; text-transform: uppercase; opacity: .72; }
 
     /* ── LUGARES ── */
-    .lugares-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2.5rem auto 0; max-width: 520px; text-align: left; }
-    @media (max-width: 460px) { .lugares-grid { grid-template-columns: 1fr; } }
-    .lugar-dist { font-family: var(--sans); font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: var(--olive); margin-bottom: .2rem; }
-    .lugar strong { font-family: var(--serif); font-size: 1rem; color: var(--ink); }
-    .lugar p { font-size: .96rem; color: var(--ink-soft); margin-top: .2rem; }
+    .lugares-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+      margin: 2.5rem auto 0;
+      max-width: 720px;
+      text-align: left;
+    }
+    @media (min-width: 640px) { .lugares-grid { grid-template-columns: 1fr 1fr; } }
+    .lugar {
+      min-height: 100%;
+      border: 1px solid var(--border);
+      background: rgb(228 223 204 / .32);
+      overflow: hidden;
+    }
+    .lugar img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      display: block;
+      filter: saturate(.92) contrast(.96);
+      transition: transform .6s cubic-bezier(.16,1,.3,1), filter .6s cubic-bezier(.16,1,.3,1);
+      cursor: zoom-in;
+    }
+    .lugar:hover img { transform: scale(1.035); filter: saturate(1.02) contrast(1); }
+    .lugar-copy { padding: 1.1rem 1.1rem 1.2rem; }
+    .lugar-dist { font-family: var(--sans); font-size: .70rem; letter-spacing: .18em; text-transform: uppercase; color: var(--olive); margin-bottom: .25rem; }
+    .lugar strong { font-family: var(--serif); font-size: 1.08rem; color: var(--ink); }
+    .lugar p { font-size: .94rem; color: var(--ink-soft); margin-top: .25rem; line-height: 1.55; }
+    .photo-credit {
+      margin: 1.1rem auto 0;
+      max-width: 58ch;
+      font-family: var(--sans);
+      font-size: .66rem;
+      letter-spacing: .08em;
+      line-height: 1.6;
+      text-transform: uppercase;
+      color: oklch(0.48 0.09 132 / .72);
+    }
+    .photo-credit a { color: inherit; text-decoration: none; border-bottom: 1px solid oklch(0.48 0.09 132 / .28); }
 
     /* ── REGALOS ── */
     .gift-grid { display: grid; gap: 2rem; margin: 2.5rem auto 0; max-width: 400px; text-align: left; }
@@ -437,11 +505,21 @@
     <li><a href="#logistica">Logística</a></li>
     <li><a href="#rsvp">RSVP</a></li>
   </ul>
-  <button class="nav-toggle" id="navToggle">Menú</button>
+  <div class="nav-actions">
+    <div class="lang-switch" aria-label="Idioma">
+      <button type="button" data-lang="es" aria-pressed="true">ES</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+    <button class="nav-toggle" id="navToggle">Menú</button>
+  </div>
 </nav>
 
 <div id="nav-mobile">
   <button id="nav-close">Cerrar</button>
+  <div class="lang-switch" aria-label="Idioma">
+    <button type="button" data-lang="es" aria-pressed="true">ES</button>
+    <button type="button" data-lang="en" aria-pressed="false">EN</button>
+  </div>
   <a href="#historia">Historia</a>
   <a href="#fotos">Fotos</a>
   <a href="#programa">Programa</a>
@@ -483,6 +561,10 @@
     <img src="casal_ensaio_praia_dunas_hora_dourada.jpeg" alt="Catalina y Enrique" loading="eager">
   </div>
   <div class="hero-panel">
+    <div class="lang-switch hero-lang" aria-label="Idioma">
+      <button type="button" data-lang="es" aria-pressed="true">ES</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
     <!-- botanical sprig -->
     <svg width="86" height="50" viewBox="0 0 86 50" fill="none" style="margin-bottom:1.5rem" aria-hidden="true">
       <path d="M43 48 Q41 34 39 22 Q37 12 36 6" stroke="#4D5A3E" stroke-width="0.85" stroke-linecap="round"/>
@@ -804,33 +886,37 @@
       <div class="log-item">
         <h3 class="log-item-title">Hotel Palermo Suite</h3>
         <ul>
-          <li>Calle 19 #39-10B, Pasto</li>
+          <li>Dirección: Calle 19A #39-10B, Pasto</li>
           <li>Restaurante regional</li>
           <li>WiFi y parqueadero gratis</li>
+          <li><a href="https://www.booking.com/hotel/co/palermo-suite.es.html" target="_blank" rel="noopener">Ver en Booking.com</a></li>
         </ul>
       </div>
       <div class="log-item">
         <h3 class="log-item-title">Café y Miel Rotamundos</h3>
         <ul>
-          <li>Cra. 47 #17-23, Pasto</li>
+          <li>Dirección: Cra. 47 #17-23, Barrio Universitario, Pasto</li>
           <li>Desayuno incluido</li>
           <li>Piso calefaccionado</li>
+          <li><a href="https://www.booking.com/hotel/co/cafe-y-miel-pasto1.es.html" target="_blank" rel="noopener">Ver en Booking.com</a></li>
         </ul>
       </div>
       <div class="log-item">
         <h3 class="log-item-title">Hotel Zarcillejo</h3>
         <ul>
-          <li>Cra. 40A #17A-21, Pasto</li>
+          <li>Dirección: Cra. 40A #17A-21, Pasto</li>
           <li>Shuttle al aeropuerto</li>
           <li>Desayuno continental</li>
+          <li><a href="https://www.booking.com/hotel/co/zarcillejo.es.html" target="_blank" rel="noopener">Ver en Booking.com</a></li>
         </ul>
       </div>
       <div class="log-item">
         <h3 class="log-item-title">Nogal Suite Hotel</h3>
         <ul>
-          <li>Cra. 29 #16B-75, Pasto</li>
+          <li>Dirección: Cra. 29 #16B-75, Barrio San Andrés, Pasto</li>
           <li>Desayuno incluido</li>
           <li>Parqueadero gratis</li>
+          <li><a href="https://www.booking.com/hotel/co/nogal-suite.es.html" target="_blank" rel="noopener">Ver en Booking.com</a></li>
         </ul>
       </div>
     </div>
@@ -863,9 +949,21 @@
       <h3 class="carnaval-title">Carnaval de Negros y Blancos</h3>
       <p class="carnaval-body">Nuestra boda coincide con el legendario Carnaval de Pasto, Patrimonio Cultural de la Humanidad — lleno de música, arte y alegría. Si llegas unos días antes, ¡sumérgete en esta tradición única!</p>
       <span class="carnaval-dates">Del 2 al 7 de Enero · Pasto, Nariño</span>
+      <img
+        src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Talco%20en%20Carnaval%20de%20Blancos%20y%20Negros.jpg"
+        alt="Carnaval de Negros y Blancos en Pasto"
+        class="carnaval-photo cat-lb"
+        loading="lazy"
+        referrerpolicy="no-referrer">
     </div>
 
-    <img src="casal_igreja_iluminada_noite_colombia.jpeg" alt="Santuario de Las Lajas" style="width:100%;max-width:640px;height:auto;display:block;margin:2.5rem auto;" class="r">
+    <img
+      src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Santuario%20de%20Las%20Lajas%2C%20Ipiales%2C%20Colombia%2C%202015-07-21%2C%20DD%2021-23%20HDR.jpg"
+      alt="Santuario de Las Lajas"
+      style="width:100%;max-width:640px;height:auto;display:block;margin:2.5rem auto;"
+      class="r cat-lb"
+      loading="lazy"
+      referrerpolicy="no-referrer">
 
     <div class="r" style="text-align:center;margin-bottom:2rem">
       <img src="ilustracao_gatos_aviao_aventura_las_lajas.jpeg" alt="Natilla y Buñuelo" class="cat-lb" style="width:clamp(200px,50vw,320px);aspect-ratio:3/4;object-fit:cover;object-position:center top;display:block;margin:0 auto .6rem">
@@ -876,26 +974,60 @@
 
     <div class="lugares-grid r">
       <div class="lugar">
-        <p class="lugar-dist">A 90 km</p>
-        <strong>Santuario de Las Lajas</strong>
-        <p>La catedral gótica más bella del mundo, construida sobre un cañón.</p>
+        <img
+          src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Santuario%20de%20Las%20Lajas%2C%20Ipiales%2C%20Colombia%2C%202015-07-21%2C%20DD%2021-23%20HDR.jpg"
+          alt="Santuario de Las Lajas"
+          class="cat-lb"
+          loading="lazy"
+          referrerpolicy="no-referrer">
+        <div class="lugar-copy">
+          <p class="lugar-dist">A 90 km</p>
+          <strong>Santuario de Las Lajas</strong>
+          <p>La catedral gótica más bella del mundo, construida sobre un cañón.</p>
+        </div>
       </div>
       <div class="lugar">
-        <p class="lugar-dist">A 25 km</p>
-        <strong>Laguna de La Cocha</strong>
-        <p>Lago alpino rodeado de casitas coloridas — paisaje de cuento.</p>
+        <img
+          src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Puerto%20sobre%20el%20Lago%20Guamuez%20o%20Laguna%20de%20la%20Cocha.jpg"
+          alt="Laguna de La Cocha"
+          class="cat-lb"
+          loading="lazy"
+          referrerpolicy="no-referrer">
+        <div class="lugar-copy">
+          <p class="lugar-dist">A 25 km</p>
+          <strong>Laguna de La Cocha</strong>
+          <p>Lago alpino rodeado de casitas coloridas — paisaje de cuento.</p>
+        </div>
       </div>
       <div class="lugar">
-        <p class="lugar-dist">A 15 km</p>
-        <strong>Volcán Galeras</strong>
-        <p>El guardián de Pasto. Vistas increíbles desde el páramo.</p>
+        <img
+          src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Volc%C3%A1n%20Galeras%20%286%29.jpg"
+          alt="Volcán Galeras"
+          class="cat-lb"
+          loading="lazy"
+          referrerpolicy="no-referrer">
+        <div class="lugar-copy">
+          <p class="lugar-dist">A 15 km</p>
+          <strong>Volcán Galeras</strong>
+          <p>El guardián de Pasto. Vistas increíbles desde el páramo.</p>
+        </div>
       </div>
       <div class="lugar">
-        <p class="lugar-dist">A 100 km</p>
-        <strong>Tulcán, Ecuador</strong>
-        <p>Cementerio botánico con esculturas en ciprés. ¡No olvides el pasaporte!</p>
+        <img
+          src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Cementerio%2C%20Tulc%C3%A1n%2C%20Ecuador%2C%202015-07-21%2C%20DD%2044.JPG"
+          alt="Cementerio de Tulcán"
+          class="cat-lb"
+          loading="lazy"
+          referrerpolicy="no-referrer">
+        <div class="lugar-copy">
+          <p class="lugar-dist">A 100 km</p>
+          <strong>Tulcán, Ecuador</strong>
+          <p>Cementerio botánico con esculturas en ciprés. ¡No olvides el pasaporte!</p>
+        </div>
       </div>
     </div>
+
+    <p class="photo-credit r">Fotos de referencia: Wikimedia Commons. Sandoná y Centro Sinergia quedan pendientes de fotos autorizadas por sus propietarios.</p>
 
     <p class="sec-body r" style="margin-top:2.5rem">Enero en Pasto es temporada seca — días despejados, 16°C–19°C durante el día, y fresco de noche. ¡El clima perfecto para celebrar!</p>
   </div>
@@ -981,11 +1113,217 @@
 </footer>
 
 <script>
+  const esToEn = {
+    'Historia': 'Story',
+    'Fotos': 'Photos',
+    'Programa': 'Schedule',
+    'Vestimenta': 'Dress code',
+    'Logística': 'Logistics',
+    'Menú': 'Menu',
+    'Cerrar': 'Close',
+    'Preguntas': 'Questions',
+    'Colombia': 'Colombia',
+    'Regalos': 'Gifts',
+    'Nos casamos': "We're getting married",
+    'Catalina': 'Catalina',
+    'Enrique': 'Enrique',
+    '9 · Enero · 2027': 'January 9 · 2027',
+    'Pasto, Nariño, Colombia': 'Pasto, Nariño, Colombia',
+    'Días': 'Days',
+    'Horas': 'Hours',
+    'Min': 'Min',
+    'Confirmar asistencia': 'Confirm attendance',
+    'Nuestra historia': 'Our story',
+    '¿Qué pasa cuando mezclas café colombiano, herencia peruano-dominicana y un acento americano?': 'What happens when you mix Colombian coffee, Peruvian-Dominican heritage, and an American accent?',
+    'Así nace la historia de amor más hermosa de nuestras vidas.': 'That is how the most beautiful love story of our lives begins.',
+    'Combinando culturas diferentes, dos idiomas y los ronroneos de nuestros bebés peludos,': 'Blending different cultures, two languages, and the purrs of our furry babies,',
+    'Natilla y Buñuelo': 'Natilla and Buñuelo',
+    '— quienes obviamente aprobaron esta unión desde el primer día — hemos construido un hogar lleno de complicidad y muchísimo amor.': '— who obviously approved this union from day one — we have built a home full of partnership and so much love.',
+    'Porque las mejores historias se escriben juntas, queremos que formes parte del día en que diremos': 'Because the best stories are written together, we want you to be part of the day when we say',
+    '"sí, acepto"': '"I do"',
+    '. ¡Nos casamos y no podríamos celebrarlo sin ti!': ". We're getting married, and we couldn't celebrate without you!",
+    'Natilla': 'Natilla',
+    '(la jefa) y': '(the boss) and',
+    'Buñuelo': 'Buñuelo',
+    '(el co-piloto) llevan años coordinando la logística del hogar. Para esta boda, ya tienen su plan de vuelo listo. Nosotros solo seguimos sus instrucciones.': '(the co-pilot) have spent years coordinating household logistics. For this wedding, they already have their flight plan ready. We are simply following their instructions.',
+    'Natilla supervisando cada detalle': 'Natilla supervising every detail',
+    'Los dos, revisando la lista de invitados': 'Both of them reviewing the guest list',
+    'Buñuelo — siempre atento': 'Buñuelo — always attentive',
+    'Los invitados de honor ya tienen sus trajes listos.': 'The guests of honor already have their outfits ready.',
+    'Nuestra vida juntos': 'Our life together',
+    'Sábado, 9 de Enero de 2027': 'Saturday, January 9, 2027',
+    'El programa del día': 'The wedding day schedule',
+    'Ceremonia religiosa': 'Religious ceremony',
+    'Casa De Ejercicios': 'Casa De Ejercicios',
+    'De San Ignacio': 'De San Ignacio',
+    '1:00 PM – 2:00 PM': '1:00 PM – 2:00 PM',
+    'Llegar a las 12:30 PM': 'Please arrive at 12:30 PM',
+    'Calle 15 #15, Pasto, Nariño': 'Calle 15 #15, Pasto, Nariño',
+    'Recepción': 'Reception',
+    'Centro Sinergia': 'Centro Sinergia',
+    '3:00 PM – 1:00 AM': '3:00 PM – 1:00 AM',
+    'Vía Chapalito, Pasto, Nariño': 'Via Chapalito, Pasto, Nariño',
+    'Entorno campestre con zonas verdes — por favor lleguen puntuales a la ceremonia.': 'Countryside setting with green areas — please arrive on time for the ceremony.',
+    'Gatito organizador': 'Kitten organizer',
+    'El coordinador oficial del día.': 'The official coordinator of the day.',
+    'Cómo venir vestido': 'What to wear',
+    'Formal Campestre': 'Countryside Formal',
+    'Nuestra celebración es en un entorno campestre donde refresca al atardecer.': 'Our celebration takes place in a countryside setting where it gets cool after sunset.',
+    'Para ellos': 'For him',
+    'Traje formal en tonos neutros: beige, gris, azul marino o negro. Sin jeans ni shorts.': 'Formal suit in neutral tones: beige, gray, navy, or black. No jeans or shorts.',
+    'Para ellas': 'For her',
+    'Vestidos largos o midi en tonos suaves y elegantes. Eviten los tacones de aguja — el lugar tiene muchas zonas verdes. Prefieran wedges, plataformas o sandalias elegantes.': 'Long or midi dresses in soft, elegant tones. Please avoid stilettos — the venue has many green areas. Wedges, platforms, or elegant sandals are best.',
+    'Trae un abrigo': 'Bring a coat',
+    'Enero en Pasto refresca de noche hasta los 8°C–10°C. Un abrigo elegante es la decisión correcta.': 'January nights in Pasto can drop to 8°C–10°C. An elegant coat is the right choice.',
+    'Sin blanco, por favor': 'No white, please',
+    'Les pedimos amablemente reservar el blanco para la novia. ¡Gracias por su comprensión!': 'We kindly ask that white be reserved for the bride. Thank you for understanding!',
+    '¿Tienen dudas?': 'Questions?',
+    'Preguntas frecuentes': 'Frequently asked questions',
+    'Ellos también tenían muchas dudas.': 'They had plenty of questions too.',
+    '¿Cuándo es la fecha límite para confirmar?': 'When is the RSVP deadline?',
+    'La fecha límite es el': 'The deadline is',
+    '30 de junio de 2026': 'June 30, 2026',
+    '. Por favor avísennos antes para poder finalizar los preparativos.': '. Please let us know before then so we can finalize the arrangements.',
+    '¿Se permiten niños en la boda?': 'Are children allowed at the wedding?',
+    'La celebración es exclusivamente para adultos. ¡Esperamos que este aviso con tiempo les ayude a organizarse!': 'The celebration is adults-only. We hope this advance notice helps you make arrangements!',
+    '¿Tengo alguna restricción alimentaria?': 'What if I have dietary restrictions?',
+    '¡Tu bienestar es importante! Si tienes alergias o restricciones, avísanos al': 'Your wellbeing matters! If you have allergies or dietary restrictions, please let us know at',
+    '. Haremos todo lo posible para adaptar el menú.': '. We will do everything possible to adapt the menu.',
+    '¿A quién puedo contactar si tengo dudas?': 'Who can I contact if I have questions?',
+    '¡Escríbennos por WhatsApp!': 'Message us on WhatsApp!',
+    'Cómo llegar': 'How to get there',
+    'Logística y alojamiento': 'Logistics and lodging',
+    'Vuelos': 'Flights',
+    'Aeropuerto': 'Airport',
+    'Antonio Nariño (PSO)': 'Antonio Nariño (PSO)',
+    '~1 hora desde Bogotá': '~1 hour from Bogota',
+    '60 min del aeropuerto al evento': '60 min from the airport to the event',
+    'La mayoría de extranjeros no necesitan visa': 'Most foreign visitors do not need a visa',
+    'Pasaporte con mínimo 6 meses de vigencia': 'Passport valid for at least 6 months',
+    'Busca vuelos en': 'Search flights on',
+    'Transporte': 'Transportation',
+    'Taxis oficiales del aeropuerto': 'Official airport taxis',
+    'Uber disponible en Pasto': 'Uber is available in Pasto',
+    'Renta de autos en la terminal': 'Rental cars are available at the terminal',
+    'Bienvenidos a Pasto': 'Welcome to Pasto',
+    'Hoteles recomendados': 'Recommended hotels',
+    'Dirección: Calle 19A #39-10B, Pasto': 'Address: Calle 19A #39-10B, Pasto',
+    'Restaurante regional': 'Regional restaurant',
+    'WiFi y parqueadero gratis': 'Free Wi-Fi and parking',
+    'Ver en Booking.com': 'View on Booking.com',
+    'Dirección: Cra. 47 #17-23, Barrio Universitario, Pasto': 'Address: Cra. 47 #17-23, Barrio Universitario, Pasto',
+    'Desayuno incluido': 'Breakfast included',
+    'Piso calefaccionado': 'Heated floors',
+    'Dirección: Cra. 40A #17A-21, Pasto': 'Address: Cra. 40A #17A-21, Pasto',
+    'Shuttle al aeropuerto': 'Airport shuttle',
+    'Desayuno continental': 'Continental breakfast',
+    'Dirección: Cra. 29 #16B-75, Barrio San Andrés, Pasto': 'Address: Cra. 29 #16B-75, Barrio San Andres, Pasto',
+    'Parqueadero gratis': 'Free parking',
+    'Aprovecha el viaje': 'Make the most of the trip',
+    'Colombia te espera': 'Colombia awaits',
+    'Carnaval de Negros y Blancos': 'Black and White Carnival',
+    'Carnaval de Negros y Blancos en Pasto': 'Black and White Carnival in Pasto',
+    'Nuestra boda coincide con el legendario Carnaval de Pasto, Patrimonio Cultural de la Humanidad — lleno de música, arte y alegría. Si llegas unos días antes, ¡sumérgete en esta tradición única!': 'Our wedding coincides with the legendary Pasto Carnival, an Intangible Cultural Heritage celebration full of music, art, and joy. If you arrive a few days early, dive into this unique tradition!',
+    'Del 2 al 7 de Enero · Pasto, Nariño': 'January 2 to 7 · Pasto, Nariño',
+    'Santuario de Las Lajas': 'Las Lajas Sanctuary',
+    'Natilla y Buñuelo ya reservaron su vuelo a Las Lajas.': 'Natilla and Buñuelo already booked their flight to Las Lajas.',
+    'Lugares por conocer': 'Places to visit',
+    'A 90 km': '90 km away',
+    'La catedral gótica más bella del mundo, construida sobre un cañón.': 'The most beautiful Gothic cathedral in the world, built over a canyon.',
+    'A 25 km': '25 km away',
+    'Laguna de La Cocha': 'La Cocha Lagoon',
+    'Lago alpino rodeado de casitas coloridas — paisaje de cuento.': 'An alpine lake surrounded by colorful little houses — a storybook landscape.',
+    'A 15 km': '15 km away',
+    'Volcán Galeras': 'Galeras Volcano',
+    'El guardián de Pasto. Vistas increíbles desde el páramo.': 'The guardian of Pasto. Incredible views from the paramo.',
+    'A 100 km': '100 km away',
+    'Tulcán, Ecuador': 'Tulcan, Ecuador',
+    'Cementerio de Tulcán': 'Tulcan Cemetery',
+    'Cementerio botánico con esculturas en ciprés. ¡No olvides el pasaporte!': "A botanical cemetery with cypress sculptures. Don't forget your passport!",
+    'Fotos de referencia: Wikimedia Commons. Sandoná y Centro Sinergia quedan pendientes de fotos autorizadas por sus propietarios.': 'Reference photos: Wikimedia Commons. Sandona and Centro Sinergia are pending owner-authorized photos.',
+    'Enero en Pasto es temporada seca — días despejados, 16°C–19°C durante el día, y fresco de noche. ¡El clima perfecto para celebrar!': 'January in Pasto is dry season — clear days, 16°C–19°C during the day, and cool nights. Perfect weather to celebrate!',
+    'Detalles para nuestro futuro': 'Details for our future',
+    'El mejor regalo eres tú': 'The best gift is you',
+    'Tu compañía es nuestro mayor regalo. Si desean tener un detalle con nosotros, agradeceremos cualquier contribución que nos ayude a seguir construyendo nuestro hogar.': 'Your presence is our greatest gift. If you would like to give us something, we would be deeply grateful for any contribution that helps us continue building our home.',
+    'Estados Unidos': 'United States',
+    'En la recepción habrá un cofre para quienes prefieran un sobre físico.': 'At the reception, there will be a card box for anyone who prefers a physical envelope.',
+    '¿Vendrás a celebrar?': 'Will you celebrate with us?',
+    'Confirmar antes del': 'Please RSVP by',
+    'Confirmar por WhatsApp': 'RSVP by WhatsApp',
+    '9 de Enero · 2027 · Pasto, Nariño, Colombia': 'January 9 · 2027 · Pasto, Nariño, Colombia',
+    'Foto ampliada': 'Enlarged photo',
+    'Anterior': 'Previous',
+    'Siguiente': 'Next',
+    'Abrir menú': 'Open menu',
+    'Cerrar ✕': 'Close ✕',
+    'Idioma': 'Language',
+    '¡Hoy es el día!': 'Today is the day!'
+  };
+
+  const enToEs = Object.fromEntries(Object.entries(esToEn).map(([es, en]) => [en, es]));
+  let currentLang = localStorage.getItem('cata-lang') || 'es';
+
+  function replaceTrimmedText(node, map) {
+    const raw = node.nodeValue;
+    const trimmed = raw.trim();
+    if (!trimmed || !map[trimmed]) return;
+    node.nodeValue = raw.replace(trimmed, map[trimmed]);
+  }
+
+  function translateText(root, map) {
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode(node) {
+        const parent = node.parentElement;
+        if (!parent || ['SCRIPT', 'STYLE'].includes(parent.tagName)) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(node => replaceTrimmedText(node, map));
+  }
+
+  function translateAttributes(map) {
+    document.querySelectorAll('[aria-label], img[alt]').forEach(el => {
+      ['aria-label', 'alt'].forEach(attr => {
+        const value = el.getAttribute(attr);
+        if (value && map[value]) el.setAttribute(attr, map[value]);
+      });
+    });
+  }
+
+  function setLanguage(lang) {
+    const map = lang === 'en' ? esToEn : enToEs;
+    translateText(document.body, map);
+    translateAttributes(map);
+    document.documentElement.lang = lang;
+    document.title = lang === 'en'
+      ? 'Catalina & Enrique · January 9 2027'
+      : 'Catalina & Enrique · 9 Enero 2027';
+    document.querySelectorAll('.lang-switch button').forEach(btn => {
+      btn.setAttribute('aria-pressed', String(btn.dataset.lang === lang));
+    });
+    const rsvp = document.querySelector('.btn-ghost');
+    if (rsvp) {
+      const message = lang === 'en'
+        ? 'Hi Cata! I confirm my attendance to your wedding on January 9, 2027 🎊'
+        : '¡Hola Cata! Confirmo mi asistencia a su boda el 9 de enero de 2027 🎊';
+      rsvp.href = `https://wa.me/19082974281?text=${encodeURIComponent(message)}`;
+    }
+    localStorage.setItem('cata-lang', lang);
+    currentLang = lang;
+  }
+
+  document.querySelectorAll('.lang-switch button').forEach(btn => {
+    btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+  });
+
   function tick() {
     const wed = new Date('2027-01-09T13:00:00-05:00');
     const diff = wed - Date.now();
     if (diff <= 0) {
-      document.getElementById('countdown').innerHTML = '<p style="font-family:var(--script);font-size:1.8rem;color:var(--olive)">¡Hoy es el día!</p>';
+      const todayText = currentLang === 'en' ? 'Today is the day!' : '¡Hoy es el día!';
+      document.getElementById('countdown').innerHTML = `<p style="font-family:var(--script);font-size:1.8rem;color:var(--olive)">${todayText}</p>`;
       return;
     }
     document.getElementById('cd-d').textContent = Math.floor(diff / 86400000);
@@ -994,6 +1332,7 @@
   }
   tick();
   setInterval(tick, 30000);
+  if (currentLang === 'en') setLanguage('en');
 
   const nav = document.getElementById('nav');
   window.addEventListener('scroll', () => nav.classList.toggle('vis', scrollY > 80), { passive: true });

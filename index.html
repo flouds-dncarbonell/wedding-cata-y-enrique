@@ -48,7 +48,7 @@
       content: '';
       position: fixed; inset: 0;
       opacity: 0.045; pointer-events: none; z-index: 0;
-      background-image: url("textura-gato-v2.jpg");
+      background-image: url("textura-gato-v2.png");
       background-size: contain;
       background-repeat: no-repeat;
       background-position: bottom right;
@@ -595,6 +595,52 @@
     .rsvp-success-inner { text-align: center; padding: 2rem 0; }
     .rsvp-success-inner p { color: var(--olive-lt); font-family: var(--serif); font-style: italic; font-size: 1.15rem; line-height: 1.7; }
     .rsvp-error-msg { color: oklch(.78 .10 28); font-family: var(--sans); font-size: .74rem; letter-spacing: .06em; margin-top: .2rem; }
+
+    /* ── RSVP MODAL ── */
+    #rsvp-modal {
+      position: fixed; inset: 0; z-index: 300;
+      background: rgba(28,36,21,.80);
+      backdrop-filter: blur(6px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+      opacity: 0; pointer-events: none;
+      transition: opacity .3s cubic-bezier(.16,1,.3,1);
+    }
+    #rsvp-modal.open { opacity: 1; pointer-events: auto; }
+    .rsvp-modal-box {
+      background: var(--ink);
+      max-width: 480px; width: 100%;
+      padding: 52px 44px 44px;
+      position: relative;
+      max-height: 92svh;
+      overflow-y: auto;
+      transform: translateY(20px) scale(.97);
+      transition: transform .38s cubic-bezier(.16,1,.3,1);
+      scrollbar-width: thin;
+      scrollbar-color: oklch(.70 .05 122 / .25) transparent;
+    }
+    #rsvp-modal.open .rsvp-modal-box { transform: none; }
+    .rsvp-modal-close {
+      position: absolute; top: 18px; right: 22px;
+      background: none; border: none; cursor: pointer;
+      font-family: var(--sans); font-size: .72rem; letter-spacing: .18em;
+      text-transform: uppercase; color: oklch(.70 .05 122 / .55);
+      transition: color .2s; min-width: 44px; min-height: 44px;
+      display: flex; align-items: center; justify-content: flex-end;
+    }
+    .rsvp-modal-close:hover { color: var(--ivory); }
+    .rsvp-modal-title {
+      font-family: var(--display); font-size: clamp(2.2rem,6vw,3.4rem);
+      font-weight: 400; color: var(--ivory); line-height: 1.05; margin-bottom: .9rem;
+    }
+    .rsvp-modal-sub {
+      font-family: var(--sans); font-size: .74rem; letter-spacing: .16em;
+      text-transform: uppercase; color: oklch(.74 .05 122 / .55); margin-bottom: 2rem;
+    }
+    .rsvp-modal-sub strong { color: var(--olive-lt); }
+    @media (max-width: 540px) {
+      .rsvp-modal-box { padding: 48px 22px 32px; }
+    }
 
     /* ── FOOTER ── */
     footer { text-align: center; padding: 40px 24px; background: var(--ivory); }
@@ -1377,6 +1423,31 @@
     <h2 class="rsvp-title">¿Vendrás a celebrar?</h2>
     <p class="rsvp-subtitle">Confirmar antes del <strong>30 de junio de 2026</strong></p>
 
+    <button class="btn-ghost" id="open-rsvp-modal" style="margin-bottom:3rem">Confirmar asistencia</button>
+
+    <div class="rsvp-contacts">
+      <div class="rsvp-contact">
+        <p class="rsvp-contact-name">Catalina</p>
+        <a href="tel:+19082974281">+1 908-297-4281</a>
+      </div>
+      <div class="rsvp-contact">
+        <p class="rsvp-contact-name">Enrique</p>
+        <a href="tel:+18622580184">+1 862-258-0184</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- ── RSVP MODAL ── -->
+<div id="rsvp-modal" role="dialog" aria-modal="true" aria-labelledby="rsvp-modal-heading">
+  <div class="rsvp-modal-box">
+    <button class="rsvp-modal-close" id="close-rsvp-modal" aria-label="Cerrar">Cerrar ✕</button>
+
+    <h2 class="rsvp-modal-title" id="rsvp-modal-heading">¿Vendrás a celebrar?</h2>
+    <p class="rsvp-modal-sub">Confirmar antes del <strong>30 de junio de 2026</strong></p>
+
     <form class="rsvp-form" id="rsvp-form" novalidate>
       <div class="rsvp-field">
         <label class="rsvp-label" for="rsvp-name">Nombre completo</label>
@@ -1417,21 +1488,8 @@
     <div id="rsvp-success-msg" style="display:none" class="rsvp-success-inner">
       <p>¡Gracias! Tu confirmación fue recibida.<br>¡Nos vemos el 9 de enero! 🎊</p>
     </div>
-
-    <div class="rsvp-contacts">
-      <div class="rsvp-contact">
-        <p class="rsvp-contact-name">Catalina</p>
-        <a href="tel:+19082974281">+1 908-297-4281</a>
-      </div>
-      <div class="rsvp-contact">
-        <p class="rsvp-contact-name">Enrique</p>
-        <a href="tel:+18622580184">+1 862-258-0184</a>
-      </div>
-    </div>
   </div>
 </div>
-
-</main>
 
 <footer>
   <span class="monogram">C &amp; E</span>
@@ -1633,8 +1691,8 @@
   }
 
   function translateAttributes(map) {
-    document.querySelectorAll('[aria-label], img[alt]').forEach(el => {
-      ['aria-label', 'alt'].forEach(attr => {
+    document.querySelectorAll('[aria-label], img[alt], [placeholder]').forEach(el => {
+      ['aria-label', 'alt', 'placeholder'].forEach(attr => {
         const value = el.getAttribute(attr);
         if (value && map[value]) el.setAttribute(attr, map[value]);
       });
@@ -1722,7 +1780,7 @@
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', event => {
       const id = anchor.getAttribute('href');
-      if (!id || id === '#') return;
+      if (!id || id === '#' || id === '#rsvp') return;
       const target = document.querySelector(id);
       if (!target) return;
       event.preventDefault();
@@ -1910,6 +1968,37 @@
     if (e.key === 'ArrowRight') lbNav(1);
   });
 
+  // ── RSVP MODAL ──
+  const rsvpModal = document.getElementById('rsvp-modal');
+
+  function openRsvpModal() {
+    rsvpModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => rsvpModal.querySelector('#rsvp-name').focus(), 50);
+  }
+  function closeRsvpModal() {
+    rsvpModal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('open-rsvp-modal').addEventListener('click', openRsvpModal);
+  document.getElementById('close-rsvp-modal').addEventListener('click', closeRsvpModal);
+  rsvpModal.addEventListener('click', e => { if (e.target === rsvpModal) closeRsvpModal(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && rsvpModal.classList.contains('open')) closeRsvpModal();
+  });
+
+  // hero CTA & any href="#rsvp" → open modal directly
+  document.querySelectorAll('a[href="#rsvp"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const section = document.getElementById('rsvp');
+      const navOffset = window.innerWidth < 768 ? 66 : 80;
+      smoothScrollTo(Math.max(0, section.getBoundingClientRect().top + window.scrollY - navOffset), 600);
+      setTimeout(openRsvpModal, 400);
+    });
+  });
+
   // ── RSVP FORM ──
   const rsvpForm = document.getElementById('rsvp-form');
   const rsvpSubmit = document.getElementById('rsvp-submit');
@@ -1942,6 +2031,7 @@
       if (!res.ok) throw new Error('status ' + res.status);
       rsvpForm.style.display = 'none';
       rsvpSuccessMsg.style.display = '';
+      setTimeout(closeRsvpModal, 3200);
     } catch {
       rsvpSubmit.disabled = false;
       rsvpSubmit.textContent = currentLang === 'en' ? 'Confirm attendance' : 'Confirmar asistencia';

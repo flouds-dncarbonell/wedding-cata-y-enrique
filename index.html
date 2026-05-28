@@ -2025,6 +2025,13 @@
     data.nombre   = toTitleCase(data.nombre.trim());
     data.apellido = toTitleCase(data.apellido.trim());
 
+    const now = new Date();
+    data.enviado_em = now.getFullYear() + '-' +
+      String(now.getMonth() + 1).padStart(2, '0') + '-' +
+      String(now.getDate()).padStart(2, '0') + ' ' +
+      String(now.getHours()).padStart(2, '0') + ':' +
+      String(now.getMinutes()).padStart(2, '0');
+
     rsvpSubmit.disabled = true;
     rsvpSubmit.textContent = currentLang === 'en' ? 'Sending…' : 'Enviando…';
     rsvpError.style.display = 'none';

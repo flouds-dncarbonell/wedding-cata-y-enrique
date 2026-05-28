@@ -557,6 +557,7 @@
 
     /* ── RSVP FORM ── */
     .rsvp-form { display: flex; flex-direction: column; gap: 1.4rem; margin-top: 2.2rem; text-align: left; }
+    .rsvp-name-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
     .rsvp-field { display: flex; flex-direction: column; gap: .45rem; }
     .rsvp-label { font-family: var(--sans); font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: oklch(.74 .05 122 / .55); }
     .rsvp-input, .rsvp-textarea {
@@ -1450,9 +1451,15 @@
     <p class="rsvp-modal-sub">Confirmar antes del <strong>30 de junio de 2026</strong></p>
 
     <form class="rsvp-form" id="rsvp-form" novalidate>
-      <div class="rsvp-field">
-        <label class="rsvp-label" for="rsvp-name">Nombre completo</label>
-        <input class="rsvp-input" id="rsvp-name" name="nombre" type="text" placeholder="Tu nombre completo" required>
+      <div class="rsvp-name-row">
+        <div class="rsvp-field">
+          <label class="rsvp-label" for="rsvp-nombre">Nombre</label>
+          <input class="rsvp-input" id="rsvp-nombre" name="nombre" type="text" placeholder="Tu nombre" required autocomplete="given-name">
+        </div>
+        <div class="rsvp-field">
+          <label class="rsvp-label" for="rsvp-apellido">Apellido</label>
+          <input class="rsvp-input" id="rsvp-apellido" name="apellido" type="text" placeholder="Tu apellido" required autocomplete="family-name">
+        </div>
       </div>
 
       <div class="rsvp-field">
@@ -1465,11 +1472,6 @@
             <input type="radio" name="asistencia" value="No"> No podré ir
           </label>
         </div>
-      </div>
-
-      <div class="rsvp-field" id="rsvp-acomp-field" style="display:none">
-        <label class="rsvp-label" for="rsvp-acomp">Número de acompañantes (sin contarte a ti)</label>
-        <input class="rsvp-input" id="rsvp-acomp" name="acompanantes" type="number" min="0" max="10" value="0">
       </div>
 
       <div class="rsvp-field">
@@ -1649,12 +1651,13 @@
     'Cerrar ✕': 'Close ✕',
     'Idioma': 'Language',
     '¡Hoy es el día!': 'Today is the day!',
-    'Nombre completo': 'Full name',
-    'Tu nombre completo': 'Your full name',
+    'Nombre': 'First name',
+    'Tu nombre': 'Your first name',
+    'Apellido': 'Last name',
+    'Tu apellido': 'Your last name',
     '¿Asistirás?': 'Will you attend?',
     'Sí, asistiré': 'Yes, I will attend',
     'No podré ir': 'No, I cannot make it',
-    'Número de acompañantes (sin contarte a ti)': 'Number of guests (not counting yourself)',
     'Restricciones alimentarias': 'Dietary restrictions',
     'Ninguna, vegano, sin gluten…': 'None, vegan, gluten-free…',
     'Mensaje (opcional)': 'Message (optional)',
@@ -1663,7 +1666,8 @@
     'Enviando…': 'Sending…',
     '¡Gracias! Tu confirmación fue recibida.': 'Thank you! Your RSVP was received.',
     '¡Nos vemos el 9 de enero! 🎊': 'See you on January 9th! 🎊',
-    'Por favor ingresa tu nombre.': 'Please enter your name.',
+    'Por favor ingresa tu nombre.': 'Please enter your first name.',
+    'Por favor ingresa tu apellido.': 'Please enter your last name.',
     'Por favor indica si asistirás.': 'Please indicate whether you will attend.',
     'Hubo un problema al enviar. Intenta de nuevo o escríbenos por WhatsApp.': 'There was a problem sending. Please try again or message us on WhatsApp.'
   };
@@ -2006,18 +2010,20 @@
   const rsvpError = document.getElementById('rsvp-error');
   const rsvpSuccessMsg = document.getElementById('rsvp-success-msg');
 
-  document.querySelectorAll('input[name="asistencia"]').forEach(r => {
-    r.addEventListener('change', () => {
-      document.getElementById('rsvp-acomp-field').style.display = r.value === 'Sí' ? '' : 'none';
-    });
-  });
+  function toTitleCase(str) {
+    return str.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+  }
 
   rsvpForm.addEventListener('submit', async e => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(rsvpForm));
 
-    if (!data.nombre?.trim()) { showRsvpError(currentLang === 'en' ? 'Please enter your name.' : 'Por favor ingresa tu nombre.'); return; }
-    if (!data.asistencia)     { showRsvpError(currentLang === 'en' ? 'Please indicate whether you will attend.' : 'Por favor indica si asistirás.'); return; }
+    if (!data.nombre?.trim())   { showRsvpError(currentLang === 'en' ? 'Please enter your first name.' : 'Por favor ingresa tu nombre.'); return; }
+    if (!data.apellido?.trim()) { showRsvpError(currentLang === 'en' ? 'Please enter your last name.' : 'Por favor ingresa tu apellido.'); return; }
+    if (!data.asistencia)       { showRsvpError(currentLang === 'en' ? 'Please indicate whether you will attend.' : 'Por favor indica si asistirás.'); return; }
+
+    data.nombre   = toTitleCase(data.nombre.trim());
+    data.apellido = toTitleCase(data.apellido.trim());
 
     rsvpSubmit.disabled = true;
     rsvpSubmit.textContent = currentLang === 'en' ? 'Sending…' : 'Enviando…';

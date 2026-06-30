@@ -565,6 +565,10 @@
     }
     .btn-ghost:hover { border-color: oklch(.70 .06 122 / .65); background: oklch(.70 .06 122 / .12); }
     .btn-ghost:active { transform: scale(.97); }
+    .btn-ghost:disabled,
+    .btn-ghost[aria-disabled="true"] { opacity: .48; cursor: default; transform: none; }
+    .btn-ghost:disabled:hover,
+    .btn-ghost[aria-disabled="true"]:hover { border-color: oklch(.70 .06 122 / .35); background: transparent; }
 
     .rsvp-contacts { display: flex; gap: 2.5rem; justify-content: center; flex-wrap: wrap; margin-top: 3rem; }
     .rsvp-contact-name { font-family: var(--sans); font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); margin-bottom: .3rem; }
@@ -1438,9 +1442,9 @@
     </svg>
 
     <h2 class="rsvp-title">¿Vendrás a celebrar?</h2>
-    <p class="rsvp-subtitle">Confirmar antes del <strong>30 de junio de 2026</strong></p>
+    <p class="rsvp-subtitle">Confirmaciones cerradas</p>
 
-    <button class="btn-ghost" id="open-rsvp-modal" style="margin-bottom:3rem">Confirmar asistencia</button>
+    <button class="btn-ghost" id="open-rsvp-modal" style="margin-bottom:3rem" disabled aria-disabled="true">Confirmaciones cerradas</button>
 
     <div class="rsvp-contacts">
       <div class="rsvp-contact">
@@ -1535,6 +1539,7 @@
     'Horas': 'Hours',
     'Min': 'Min',
     'Confirmar asistencia': 'Confirm attendance',
+    'Confirmaciones cerradas': 'RSVP closed',
     'Nuestra historia': 'Our story',
     'Nuestras raíces vienen de distintos rincones —de las montañas de Colombia, de la herencia del Perú y del ritmo de República Dominicana— pero nuestros corazones encontraron un solo hogar.': 'Our roots come from different corners—the mountains of Colombia, the heritage of Peru, and the rhythm of the Dominican Republic—but our hearts found a single home.',
     'Desde el primer instante supimos que no queríamos separarnos. Hoy, con la complicidad de nuestras vidas, la ternura de nuestros gatitos y el amor de nuestro círculo más cercano, queremos celebrar que somos el refugio y el futuro del otro.': "From the very first moment, we knew we never wanted to be apart. Today, with the complicity of our lives, the tenderness of our kittens, and the love of our closest circle, we want to celebrate that we are each other's refuge and future.",
@@ -1989,19 +1994,22 @@
   });
 
   // ── RSVP MODAL ──
+  const RSVP_CLOSED = true;
   const rsvpModal = document.getElementById('rsvp-modal');
+  const openRsvpButton = document.getElementById('open-rsvp-modal');
 
   function openRsvpModal() {
+    if (RSVP_CLOSED) return;
     rsvpModal.classList.add('open');
     document.body.style.overflow = 'hidden';
-    setTimeout(() => rsvpModal.querySelector('#rsvp-name').focus(), 50);
+    setTimeout(() => rsvpModal.querySelector('#rsvp-nombre').focus(), 50);
   }
   function closeRsvpModal() {
     rsvpModal.classList.remove('open');
     document.body.style.overflow = '';
   }
 
-  document.getElementById('open-rsvp-modal').addEventListener('click', openRsvpModal);
+  openRsvpButton.addEventListener('click', openRsvpModal);
   document.getElementById('close-rsvp-modal').addEventListener('click', closeRsvpModal);
   rsvpModal.addEventListener('click', e => { if (e.target === rsvpModal) closeRsvpModal(); });
   document.addEventListener('keydown', e => {
@@ -2015,6 +2023,7 @@
       const section = document.getElementById('rsvp');
       const navOffset = window.innerWidth < 768 ? 66 : 80;
       smoothScrollTo(Math.max(0, section.getBoundingClientRect().top + window.scrollY - navOffset), 600);
+      if (RSVP_CLOSED) return;
       setTimeout(openRsvpModal, 400);
     });
   });
@@ -2031,6 +2040,7 @@
 
   rsvpForm.addEventListener('submit', async e => {
     e.preventDefault();
+    if (RSVP_CLOSED) return;
     const data = Object.fromEntries(new FormData(rsvpForm));
 
     if (!data.nombre?.trim())   { showRsvpError(currentLang === 'en' ? 'Please enter your first name.' : 'Por favor ingresa tu nombre.'); return; }

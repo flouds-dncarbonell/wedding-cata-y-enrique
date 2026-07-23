@@ -1167,7 +1167,7 @@
     <div class="faq-list r">
       <div class="faq-item">
         <button class="faq-q">¿Cuándo es la fecha límite para confirmar?<span class="faq-toggle">+</span></button>
-        <div class="faq-a"><div class="faq-a-inner"><p>La fecha límite es el <strong>30 de junio de 2026</strong>. Por favor avísennos antes para poder finalizar los preparativos.</p></div></div>
+        <div class="faq-a"><div class="faq-a-inner"><p>Por favor confírmanos tu asistencia lo antes posible para poder finalizar los preparativos.</p></div></div>
       </div>
       <div class="faq-item">
         <button class="faq-q">¿Se permiten niños en la boda?<span class="faq-toggle">+</span></button>
@@ -1442,9 +1442,9 @@
     </svg>
 
     <h2 class="rsvp-title">¿Vendrás a celebrar?</h2>
-    <p class="rsvp-subtitle">Confirmaciones cerradas</p>
+    <p class="rsvp-subtitle">Confirma tu asistencia</p>
 
-    <button class="btn-ghost" id="open-rsvp-modal" style="margin-bottom:3rem" disabled aria-disabled="true">Confirmaciones cerradas</button>
+    <button class="btn-ghost" id="open-rsvp-modal" style="margin-bottom:3rem">Confirmar asistencia</button>
 
     <div class="rsvp-contacts">
       <div class="rsvp-contact">
@@ -1467,7 +1467,7 @@
     <button class="rsvp-modal-close" id="close-rsvp-modal" aria-label="Cerrar">Cerrar ✕</button>
 
     <h2 class="rsvp-modal-title" id="rsvp-modal-heading">¿Vendrás a celebrar?</h2>
-    <p class="rsvp-modal-sub">Confirmar antes del <strong>30 de junio de 2026</strong></p>
+    <p class="rsvp-modal-sub">Confirma tu asistencia</p>
 
     <form class="rsvp-form" id="rsvp-form" novalidate>
       <div class="rsvp-name-row">
@@ -1539,7 +1539,7 @@
     'Horas': 'Hours',
     'Min': 'Min',
     'Confirmar asistencia': 'Confirm attendance',
-    'Confirmaciones cerradas': 'RSVP closed',
+    'Confirma tu asistencia': 'Please RSVP',
     'Nuestra historia': 'Our story',
     'Nuestras raíces vienen de distintos rincones —de las montañas de Colombia, de la herencia del Perú y del ritmo de República Dominicana— pero nuestros corazones encontraron un solo hogar.': 'Our roots come from different corners—the mountains of Colombia, the heritage of Peru, and the rhythm of the Dominican Republic—but our hearts found a single home.',
     'Desde el primer instante supimos que no queríamos separarnos. Hoy, con la complicidad de nuestras vidas, la ternura de nuestros gatitos y el amor de nuestro círculo más cercano, queremos celebrar que somos el refugio y el futuro del otro.': "From the very first moment, we knew we never wanted to be apart. Today, with the complicity of our lives, the tenderness of our kittens, and the love of our closest circle, we want to celebrate that we are each other's refuge and future.",
@@ -1586,9 +1586,7 @@
     'Preguntas frecuentes': 'Frequently asked questions',
     'Ellos también tenían muchas dudas.': 'They had plenty of questions too.',
     '¿Cuándo es la fecha límite para confirmar?': 'When is the RSVP deadline?',
-    'La fecha límite es el': 'The deadline is',
-    '30 de junio de 2026': 'June 30, 2026',
-    '. Por favor avísennos antes para poder finalizar los preparativos.': '. Please let us know before then so we can finalize the arrangements.',
+    'Por favor confírmanos tu asistencia lo antes posible para poder finalizar los preparativos.': 'Please confirm your attendance as soon as possible so we can finalize the arrangements.',
     '¿Se permiten niños en la boda?': 'Are children allowed at the wedding?',
     'La celebración es exclusivamente para adultos. ¡Esperamos que este aviso con tiempo les ayude a organizarse!': 'The celebration is adults-only. We hope this advance notice helps you make arrangements!',
     '¿Tengo alguna restricción alimentaria?': 'What if I have dietary restrictions?',
@@ -1661,7 +1659,6 @@
     'Estados Unidos': 'United States',
     'En la recepción habrá un cofre para quienes prefieran un sobre físico.': 'At the reception, there will be a card box for anyone who prefers a physical envelope.',
     '¿Vendrás a celebrar?': 'Will you celebrate with us?',
-    'Confirmar antes del': 'Please RSVP by',
     'Confirmar por WhatsApp': 'RSVP by WhatsApp',
     '9 de Enero · 2027 · Pasto, Nariño, Colombia': 'January 9 · 2027 · Pasto, Nariño, Colombia',
     'Foto ampliada': 'Enlarged photo',
@@ -1994,7 +1991,7 @@
   });
 
   // ── RSVP MODAL ──
-  const RSVP_CLOSED = true;
+  const RSVP_CLOSED = false;
   const rsvpModal = document.getElementById('rsvp-modal');
   const openRsvpButton = document.getElementById('open-rsvp-modal');
 

@@ -384,24 +384,34 @@
       scrollbar-width: none;
       -webkit-overflow-scrolling: touch;
       overscroll-behavior-x: contain;
-      aspect-ratio: 4 / 3;
+      /* Same proportion as the full daytime facade, so that photo is not cropped. */
+      aspect-ratio: 1400 / 1322;
       outline: none;
     }
     .venue-carousel-track::-webkit-scrollbar { display: none; }
     .venue-carousel-track:focus-visible { outline: 2px solid var(--olive); outline-offset: -2px; }
-    .venue-carousel-track img {
-      flex: 0 0 100%;
-      width: 100%;
+    .venue-slide {
+      flex: 0 0 auto;
+      min-width: 0;
       height: 100%;
-      min-width: 100%;
-      object-fit: cover;
       scroll-snap-align: start;
       scroll-snap-stop: always;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .venue-carousel-track img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center center;
       display: block;
       filter: saturate(.94) contrast(.97);
       user-select: none;
       -webkit-user-drag: none;
     }
+    .venue-slide--low img { object-position: center bottom; }
     .venue-carousel-arrow {
       position: absolute;
       top: 50%;
@@ -1189,11 +1199,21 @@
         <div class="venue-carousel" role="region" aria-roledescription="carrusel" aria-label="Fotos de la Catedral Sagrado Corazón de Jesús">
           <div class="venue-carousel-stage">
             <div class="venue-carousel-track" tabindex="0">
-              <img src="catedral-pasto-dia-fachada.jpeg" alt="Fachada de la Catedral Sagrado Corazón de Jesús en Pasto, de día" class="cat-lb" width="1200" height="900">
-              <img src="catedral-pasto-dia-torres.jpeg" alt="Torres de la Catedral Sagrado Corazón de Jesús en Pasto, de día" class="cat-lb" width="1200" height="900" loading="lazy">
-              <img src="catedral-pasto-atardecer.jpeg" alt="Catedral Sagrado Corazón de Jesús de Pasto iluminada al anochecer" class="cat-lb" width="1200" height="900" loading="lazy">
-              <img src="catedral-pasto-noche.jpeg" alt="Catedral Sagrado Corazón de Jesús de Pasto iluminada de noche" class="cat-lb" width="1200" height="900" loading="lazy">
-              <img src="catedral-pasto-noche-cupula.jpeg" alt="Cúpula iluminada de la Catedral Sagrado Corazón de Jesús en Pasto" class="cat-lb" width="1200" height="900" loading="lazy">
+              <div class="venue-slide" style="background:#0c4ea3">
+                <img src="catedral-pasto-dia-fachada.jpeg" alt="Fachada de la Catedral Sagrado Corazón de Jesús en Pasto, de día" class="cat-lb" width="1400" height="1322">
+              </div>
+              <div class="venue-slide" style="background:#5b9ad6">
+                <img src="catedral-pasto-dia-torres.jpeg" alt="Torres de la Catedral Sagrado Corazón de Jesús en Pasto, de día" class="cat-lb" width="1200" height="1600" loading="lazy">
+              </div>
+              <div class="venue-slide venue-slide--low" style="background:#1d3d68">
+                <img src="catedral-pasto-atardecer.jpeg" alt="Catedral Sagrado Corazón de Jesús de Pasto iluminada al anochecer" class="cat-lb" width="1400" height="1050" loading="lazy">
+              </div>
+              <div class="venue-slide venue-slide--low" style="background:#05060a">
+                <img src="catedral-pasto-noche.jpeg" alt="Catedral Sagrado Corazón de Jesús de Pasto iluminada de noche" class="cat-lb" width="1400" height="1050" loading="lazy">
+              </div>
+              <div class="venue-slide venue-slide--low" style="background:#0b1c3d">
+                <img src="catedral-pasto-noche-cupula.jpeg" alt="Cúpula iluminada de la Catedral Sagrado Corazón de Jesús en Pasto" class="cat-lb" width="1400" height="928" loading="lazy">
+              </div>
             </div>
             <button type="button" class="venue-carousel-arrow venue-carousel-prev" aria-label="Foto anterior">&#8592;</button>
             <button type="button" class="venue-carousel-arrow venue-carousel-next" aria-label="Foto siguiente">&#8594;</button>
@@ -2270,6 +2290,7 @@
     const root = document.querySelector('.venue-carousel');
     if (!root) return;
     const track = root.querySelector('.venue-carousel-track');
+    const frames = Array.from(track.querySelectorAll('.venue-slide'));
     const slides = Array.from(track.querySelectorAll('img'));
     const dots = Array.from(root.querySelectorAll('.venue-carousel-dots button'));
     const credits = Array.from(root.querySelectorAll('.venue-credit'));
@@ -2298,11 +2319,22 @@
         : `Foto ${n} de ${slides.length}`;
     };
 
+    function sizeFrames() {
+      const width = track.getBoundingClientRect().width;
+      if (!width) return;
+      frames.forEach(frame => {
+        frame.style.flexBasis = width + 'px';
+        frame.style.width = width + 'px';
+      });
+    }
+
     function scrollToIndex(i) {
       const total = slides.length;
       const next = (i + total) % total;
+      sizeFrames();
+      const step = frames[0].getBoundingClientRect().width || track.clientWidth;
       track.scrollTo({
-        left: next * track.clientWidth,
+        left: next * step,
         behavior: reduceMotion ? 'auto' : 'smooth'
       });
     }
@@ -2312,7 +2344,7 @@
     dots.forEach((dot, i) => dot.addEventListener('click', () => scrollToIndex(i)));
 
     track.addEventListener('scroll', () => {
-      const width = track.clientWidth || 1;
+      const width = frames[0].getBoundingClientRect().width || track.clientWidth || 1;
       const next = Math.max(0, Math.min(slides.length - 1, Math.round(track.scrollLeft / width)));
       sync(next);
     }, { passive: true });
@@ -2326,8 +2358,13 @@
     });
 
     window.addEventListener('resize', () => {
-      track.scrollTo({ left: index * track.clientWidth, behavior: 'auto' });
+      sizeFrames();
+      const step = frames[0].getBoundingClientRect().width || track.clientWidth;
+      track.scrollTo({ left: index * step, behavior: 'auto' });
     });
+    sizeFrames();
+    requestAnimationFrame(() => requestAnimationFrame(sizeFrames));
+    window.addEventListener('load', sizeFrames);
 
     announceVenueSlide();
   })();

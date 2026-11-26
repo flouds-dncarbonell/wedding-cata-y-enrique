@@ -19,7 +19,6 @@ JANUARY 9, 2027
 13:00–14:00
 Casa De Ejercicios De San Ignacio
 15 Calle 15, Pasto, Nariño, 520002, Colombia
-Les pedimos amablemente a nuestros invitados llegar a las 12:30 PM para que todos puedan acomodarse antes de que comience la ceremonia.
 13:00–14:00
 SABADO ENERO 9 DE 2027
 RECEPCIÓN

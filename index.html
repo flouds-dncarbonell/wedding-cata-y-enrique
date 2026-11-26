@@ -360,6 +360,127 @@
       cursor: zoom-in;
     }
     .invite-photo--reception { object-position: 50% 44%; }
+    .invite-line a {
+      color: var(--olive);
+      font-style: normal;
+      text-decoration: none;
+      border-bottom: 1px solid oklch(0.48 0.09 132 / .35);
+    }
+    .invite-line a:hover { border-bottom-color: var(--olive); }
+    .invite-name.invite-name--cathedral { font-size: 1.72rem; }
+
+    /* Ceremony photo carousel — same scroll-snap idea as .cat-carousel, one photo at a time */
+    .venue-carousel { position: relative; z-index: 1; margin: 0 0 .2rem; }
+    .venue-carousel-stage {
+      position: relative;
+      width: calc(100% + 20px);
+      margin: -28px -10px 0;
+    }
+    .venue-carousel-track {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-x: contain;
+      /* Same proportion as the full daytime facade, so that photo is not cropped. */
+      aspect-ratio: 1400 / 1322;
+      outline: none;
+    }
+    .venue-carousel-track::-webkit-scrollbar { display: none; }
+    .venue-carousel-track:focus-visible { outline: 2px solid var(--olive); outline-offset: -2px; }
+    .venue-slide {
+      flex: 0 0 auto;
+      min-width: 0;
+      height: 100%;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .venue-carousel-track img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center center;
+      display: block;
+      filter: saturate(.94) contrast(.97);
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+    .venue-slide--low img { object-position: center bottom; }
+    .venue-carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid oklch(0.70 0.06 122 / .5);
+      background: rgb(228 223 204 / .88);
+      color: var(--ink);
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      line-height: 1;
+      cursor: pointer;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+    .venue-carousel-arrow:hover { background: var(--ivory); }
+    .venue-carousel-arrow:focus-visible { outline: 2px solid var(--olive); outline-offset: 2px; }
+    .venue-carousel-prev { left: 8px; }
+    .venue-carousel-next { right: 8px; }
+    .venue-carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 2px;
+      margin-top: .65rem;
+    }
+    .venue-carousel-dots button {
+      width: 28px;
+      height: 28px;
+      border: 0;
+      background: transparent;
+      padding: 0;
+      cursor: pointer;
+      position: relative;
+    }
+    .venue-carousel-dots button::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      border: 1px solid var(--olive);
+      background: transparent;
+    }
+    .venue-carousel-dots button[aria-current="true"]::before { background: var(--olive); }
+    .venue-carousel-dots button:focus-visible { outline: 2px solid var(--olive); outline-offset: 1px; }
+    .venue-carousel .photo-credit { margin: .15rem auto .35rem; }
+    .venue-credit-note { margin-top: 0; }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .venue-carousel-track { scroll-behavior: auto; }
+    }
     .invite-type {
       font-family: var(--sans); font-size: .72rem; letter-spacing: .22em;
       text-transform: uppercase; color: var(--olive); display: block; margin-bottom: 1.2rem;
@@ -398,7 +519,13 @@
         width: calc(100% + 12px);
         margin: -22px -6px 1.5rem;
       }
+      .venue-carousel-stage {
+        width: calc(100% + 12px);
+        margin: -22px -6px 0;
+      }
+      .venue-carousel-arrow { width: 40px; height: 40px; }
       .invite-name { font-size: 2.15rem; }
+      .invite-name.invite-name--cathedral { font-size: 1.9rem; }
     }
 
     /* ── STORIA PHOTOS ── */
@@ -1069,15 +1196,61 @@
 
     <div class="prog-wrap">
       <div class="invite-card r d1">
-        <img src="casa-de-ejercicios.jpeg" alt="Casa De Ejercicios De San Ignacio" class="invite-photo cat-lb" loading="lazy">
+        <div class="venue-carousel" role="region" aria-roledescription="carrusel" aria-label="Fotos de la Catedral Sagrado Corazón de Jesús">
+          <div class="venue-carousel-stage">
+            <div class="venue-carousel-track" tabindex="0">
+              <div class="venue-slide" style="background:#0c4ea3">
+                <img src="catedral-pasto-dia-fachada.jpeg" alt="Fachada de la Catedral Sagrado Corazón de Jesús en Pasto, de día" class="cat-lb" width="1400" height="1322">
+              </div>
+              <div class="venue-slide" style="background:#5b9ad6">
+                <img src="catedral-pasto-dia-torres.jpeg" alt="Torres de la Catedral Sagrado Corazón de Jesús en Pasto, de día" class="cat-lb" width="1200" height="1600" loading="lazy">
+              </div>
+              <div class="venue-slide venue-slide--low" style="background:#1d3d68">
+                <img src="catedral-pasto-atardecer.jpeg" alt="Catedral Sagrado Corazón de Jesús de Pasto iluminada al anochecer" class="cat-lb" width="1400" height="1050" loading="lazy">
+              </div>
+              <div class="venue-slide venue-slide--low" style="background:#05060a">
+                <img src="catedral-pasto-noche.jpeg" alt="Catedral Sagrado Corazón de Jesús de Pasto iluminada de noche" class="cat-lb" width="1400" height="1050" loading="lazy">
+              </div>
+              <div class="venue-slide venue-slide--low" style="background:#0b1c3d">
+                <img src="catedral-pasto-noche-cupula.jpeg" alt="Cúpula iluminada de la Catedral Sagrado Corazón de Jesús en Pasto" class="cat-lb" width="1400" height="928" loading="lazy">
+              </div>
+            </div>
+            <button type="button" class="venue-carousel-arrow venue-carousel-prev" aria-label="Foto anterior">&#8592;</button>
+            <button type="button" class="venue-carousel-arrow venue-carousel-next" aria-label="Foto siguiente">&#8594;</button>
+          </div>
+          <div class="venue-carousel-dots">
+            <button type="button" aria-label="Foto 1 de 5" aria-current="true"></button>
+            <button type="button" aria-label="Foto 2 de 5"></button>
+            <button type="button" aria-label="Foto 3 de 5"></button>
+            <button type="button" aria-label="Foto 4 de 5"></button>
+            <button type="button" aria-label="Foto 5 de 5"></button>
+          </div>
+          <p class="venue-carousel-status sr-only" aria-live="polite"></p>
+          <p class="photo-credit venue-credit">
+            <span>Foto</span>: <a href="https://commons.wikimedia.org/wiki/File:Catedral_de_Pasto_(Nari%C3%B1o).JPG" target="_blank" rel="noopener">Gersonparra11</a> · <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a>
+          </p>
+          <p class="photo-credit venue-credit" hidden>
+            <span>Foto</span>: <a href="https://commons.wikimedia.org/wiki/File:Catedral_de_San_Juan_de_Pasto_10.JPG" target="_blank" rel="noopener">Nelsonc</a> · <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a>
+          </p>
+          <p class="photo-credit venue-credit" hidden>
+            <span>Foto</span>: <a href="https://commons.wikimedia.org/wiki/File:CATEDRAL_DE_PASTO_-_panoramio.jpg" target="_blank" rel="noopener">Carlos A. Revelo Risueño</a> · <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a>
+          </p>
+          <p class="photo-credit venue-credit" hidden>
+            <span>Foto</span>: <a href="https://commons.wikimedia.org/wiki/File:Catedral_de_Pasto.jpg" target="_blank" rel="noopener">Laureano Botina Rosero</a> · <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a>
+          </p>
+          <p class="photo-credit venue-credit" hidden>
+            <span>Foto</span>: <a href="https://commons.wikimedia.org/wiki/File:C%C3%BApula_de_la_catedral_de_San_Ezequiel_Moreno.jpg" target="_blank" rel="noopener">Jorgelrm</a> · <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a>
+          </p>
+          <p class="photo-credit venue-credit-note">Imágenes adaptadas de Wikimedia Commons.</p>
+        </div>
         <span class="invite-type">Ceremonia religiosa</span>
-        <h3 class="invite-name">Casa De Ejercicios<br>De San Ignacio</h3>
+        <h3 class="invite-name invite-name--cathedral">Catedral<br>Sagrado Corazón<br>de Jesús</h3>
         <div class="invite-rule"></div>
         <p class="invite-line">Sábado, 9 de Enero de 2027</p>
-        <p class="invite-line"><strong>1:00 PM – 2:00 PM</strong></p>
-        <p class="invite-line" style="margin-top:.3rem">Llegar a las 12:30 PM</p>
+        <p class="invite-line"><strong>2:30 PM</strong></p>
         <div class="invite-rule"></div>
-        <p class="invite-line">Calle 15 #15, Pasto, Nariño</p>
+        <p class="invite-line">Cra. 26 #17-23, Pasto, Nariño</p>
+        <p class="invite-line"><a href="https://maps.app.goo.gl/ARhAZ2PE81thMFVs5?g_st=iw" target="_blank" rel="noopener">Cómo llegar</a></p>
       </div>
       <div class="invite-card r d2">
         <img src="sinergia.jpeg" alt="Centro Sinergia" class="invite-photo invite-photo--reception cat-lb" loading="lazy">
@@ -1557,11 +1730,27 @@
     'Sábado, 9 de Enero de 2027': 'Saturday, January 9, 2027',
     'El programa del día': 'The wedding day schedule',
     'Ceremonia religiosa': 'Religious ceremony',
-    'Casa De Ejercicios': 'Casa De Ejercicios',
-    'De San Ignacio': 'De San Ignacio',
-    '1:00 PM – 2:00 PM': '1:00 PM – 2:00 PM',
-    'Llegar a las 12:30 PM': 'Please arrive at 12:30 PM',
-    'Calle 15 #15, Pasto, Nariño': 'Calle 15 #15, Pasto, Nariño',
+    'Catedral': 'Cathedral',
+    'Sagrado Corazón': 'Sacred Heart',
+    'de Jesús': 'of Jesus',
+    '2:30 PM': '2:30 PM',
+    'Cra. 26 #17-23, Pasto, Nariño': 'Cra. 26 #17-23, Pasto, Nariño',
+    'Fotos de la Catedral Sagrado Corazón de Jesús': 'Photos of the Sacred Heart of Jesus Cathedral',
+    'carrusel': 'carousel',
+    'Foto anterior': 'Previous photo',
+    'Foto siguiente': 'Next photo',
+    'Foto 1 de 5': 'Photo 1 of 5',
+    'Foto 2 de 5': 'Photo 2 of 5',
+    'Foto 3 de 5': 'Photo 3 of 5',
+    'Foto 4 de 5': 'Photo 4 of 5',
+    'Foto 5 de 5': 'Photo 5 of 5',
+    'Foto': 'Photo',
+    'Imágenes adaptadas de Wikimedia Commons.': 'Images adapted from Wikimedia Commons.',
+    'Fachada de la Catedral Sagrado Corazón de Jesús en Pasto, de día': 'Facade of the Sacred Heart of Jesus Cathedral in Pasto, by day',
+    'Torres de la Catedral Sagrado Corazón de Jesús en Pasto, de día': 'Towers of the Sacred Heart of Jesus Cathedral in Pasto, by day',
+    'Catedral Sagrado Corazón de Jesús de Pasto iluminada al anochecer': 'Sacred Heart of Jesus Cathedral in Pasto, lit at dusk',
+    'Catedral Sagrado Corazón de Jesús de Pasto iluminada de noche': 'Sacred Heart of Jesus Cathedral in Pasto, lit at night',
+    'Cúpula iluminada de la Catedral Sagrado Corazón de Jesús en Pasto': 'Illuminated dome of the Sacred Heart of Jesus Cathedral in Pasto',
     'Recepción': 'Reception',
     'Centro Sinergia': 'Centro Sinergia',
     '3:00 PM – 1:00 AM': '3:00 PM – 1:00 AM',
@@ -1691,6 +1880,7 @@
 
   const enToEs = Object.fromEntries(Object.entries(esToEn).map(([es, en]) => [en, es]));
   let currentLang = localStorage.getItem('cata-lang') || 'es';
+  let announceVenueSlide = function () {};
 
   function replaceTrimmedText(node, map) {
     const raw = node.nodeValue;
@@ -1714,7 +1904,7 @@
 
   function translateAttributes(map) {
     document.querySelectorAll('[aria-label], img[alt], [placeholder]').forEach(el => {
-      ['aria-label', 'alt', 'placeholder'].forEach(attr => {
+      ['aria-label', 'aria-roledescription', 'alt', 'placeholder'].forEach(attr => {
         const value = el.getAttribute(attr);
         if (value && map[value]) el.setAttribute(attr, map[value]);
       });
@@ -1734,6 +1924,7 @@
     });
     localStorage.setItem('cata-lang', lang);
     currentLang = lang;
+    if (typeof refreshVenueCarouselLang === 'function') refreshVenueCarouselLang();
   }
 
   document.querySelectorAll('.lang-switch button').forEach(btn => {
@@ -1741,7 +1932,7 @@
   });
 
   function tick() {
-    const wed = new Date('2027-01-09T13:00:00-05:00');
+    const wed = new Date('2027-01-09T14:30:00-05:00');
     const diff = wed - Date.now();
     if (diff <= 0) {
       const todayText = currentLang === 'en' ? 'Today is the day!' : '¡Hoy es el día!';
@@ -2090,6 +2281,93 @@
       if (!was) item.classList.add('open');
     });
   });
+
+  // Ceremony venue carousel. Reuses the site's scroll-snap pattern (see .cat-carousel):
+  // swipe on touch, arrows and dots on pointer/keyboard. No autoplay.
+  function refreshVenueCarouselLang() { announceVenueSlide(); }
+
+  (function initVenueCarousel() {
+    const root = document.querySelector('.venue-carousel');
+    if (!root) return;
+    const track = root.querySelector('.venue-carousel-track');
+    const frames = Array.from(track.querySelectorAll('.venue-slide'));
+    const slides = Array.from(track.querySelectorAll('img'));
+    const dots = Array.from(root.querySelectorAll('.venue-carousel-dots button'));
+    const credits = Array.from(root.querySelectorAll('.venue-credit'));
+    const status = root.querySelector('.venue-carousel-status');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let index = 0;
+
+    function sync(next) {
+      if (next === index) return;
+      index = next;
+      dots.forEach((dot, i) => {
+        if (i === index) dot.setAttribute('aria-current', 'true');
+        else dot.removeAttribute('aria-current');
+      });
+      credits.forEach((credit, i) => {
+        if (i === index) credit.removeAttribute('hidden');
+        else credit.setAttribute('hidden', '');
+      });
+      announceVenueSlide();
+    }
+
+    announceVenueSlide = function () {
+      const n = index + 1;
+      status.textContent = currentLang === 'en'
+        ? `Photo ${n} of ${slides.length}`
+        : `Foto ${n} de ${slides.length}`;
+    };
+
+    function sizeFrames() {
+      const width = track.getBoundingClientRect().width;
+      if (!width) return;
+      frames.forEach(frame => {
+        frame.style.flexBasis = width + 'px';
+        frame.style.width = width + 'px';
+      });
+    }
+
+    function scrollToIndex(i) {
+      const total = slides.length;
+      const next = (i + total) % total;
+      sizeFrames();
+      const step = frames[0].getBoundingClientRect().width || track.clientWidth;
+      track.scrollTo({
+        left: next * step,
+        behavior: reduceMotion ? 'auto' : 'smooth'
+      });
+    }
+
+    root.querySelector('.venue-carousel-prev').addEventListener('click', () => scrollToIndex(index - 1));
+    root.querySelector('.venue-carousel-next').addEventListener('click', () => scrollToIndex(index + 1));
+    dots.forEach((dot, i) => dot.addEventListener('click', () => scrollToIndex(i)));
+
+    track.addEventListener('scroll', () => {
+      const width = frames[0].getBoundingClientRect().width || track.clientWidth || 1;
+      const next = Math.max(0, Math.min(slides.length - 1, Math.round(track.scrollLeft / width)));
+      sync(next);
+    }, { passive: true });
+
+    root.addEventListener('keydown', e => {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      if (document.getElementById('lightbox').classList.contains('open')) return;
+      if (e.target.closest('a')) return;
+      e.preventDefault();
+      scrollToIndex(index + (e.key === 'ArrowRight' ? 1 : -1));
+    });
+
+    window.addEventListener('resize', () => {
+      sizeFrames();
+      const step = frames[0].getBoundingClientRect().width || track.clientWidth;
+      track.scrollTo({ left: index * step, behavior: 'auto' });
+    });
+    sizeFrames();
+    requestAnimationFrame(() => requestAnimationFrame(sizeFrames));
+    window.addEventListener('load', sizeFrames);
+
+    announceVenueSlide();
+  })();
 </script>
 </body>
 </html>
